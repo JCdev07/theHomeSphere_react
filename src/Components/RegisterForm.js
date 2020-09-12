@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import useRedirect from "./../hooks/isRedirect";
 import FormBtn from "./SubComponents/FormBtn";
+import { useToasts } from "react-toast-notifications";
 
 export default function RegisterForm() {
+   const { addToast } = useToasts();
+
    // Registration State
    const [registerStatus, setRegisterStatus] = useState({
       firstname: "",
@@ -149,6 +152,12 @@ export default function RegisterForm() {
                if (data.user) {
                   setIsLoading(false);
                   setisRedirect(true);
+                  addToast("Successfully Created an Accout, Please Log in", {
+                     appearance: "success",
+                     autoDismiss: true,
+                     autoDismissTimeout: 7000,
+                     placement: "top-center",
+                  });
                }
             });
       } else {

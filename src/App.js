@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
+import { ToastProvider } from "react-toast-notifications";
 
 // PAGES
 import Admin from "./Pages/Admin";
@@ -26,27 +27,33 @@ function App() {
                <UserNavigation />
 
                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/login" component={Login} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/properties" component={Properties} />
-                  <Route
-                     exact
-                     path="/properties/:id"
-                     component={PropertySingle}
-                  />
-                  <Route exact path="/transactions" component={Transactions} />
-                  <Route
-                     exact
-                     path="/transactions/:id"
-                     component={TransactionSingle}
-                  />
-                  <Route
-                     exact
-                     path="/confirm-booking"
-                     component={ConfirmBooking}
-                  />
-                  <Route exact path="/admin" component={Admin} />
+                  <ToastProvider>
+                     <Route exact path="/" component={Home} />
+                     <Route exact path="/login" component={Login} />
+                     <Route exact path="/register" component={Register} />
+                     <Route exact path="/properties" component={Properties} />
+                     <Route
+                        exact
+                        path="/properties/:id"
+                        component={PropertySingle}
+                     />
+                     <Route
+                        exact
+                        path="/transactions"
+                        component={Transactions}
+                     />
+                     <Route
+                        exact
+                        path="/transactions/:id"
+                        component={TransactionSingle}
+                     />
+                     <Route
+                        exact
+                        path="/confirm-booking"
+                        component={ConfirmBooking}
+                     />
+                     <Route exact path="/admin" component={Admin} />
+                  </ToastProvider>
                </Switch>
             </div>
          </UserContext.Provider>
