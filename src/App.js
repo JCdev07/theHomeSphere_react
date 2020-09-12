@@ -1,10 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-   BrowserRouter as Router,
-   Switch,
-   Route,
-   NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 
 // PAGES
@@ -26,10 +21,10 @@ function App() {
 
    return (
       <Router>
-         <UserNavigation />
+         <UserContext.Provider value={{ user, setUser }}>
+            <div className="App">
+               <UserNavigation />
 
-         <div className="App">
-            <UserContext.Provider value={{ user, setUser }}>
                <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/login" component={Login} />
@@ -53,8 +48,8 @@ function App() {
                   />
                   <Route exact path="/admin" component={Admin} />
                </Switch>
-            </UserContext.Provider>
-         </div>
+            </div>
+         </UserContext.Provider>
       </Router>
    );
 }
