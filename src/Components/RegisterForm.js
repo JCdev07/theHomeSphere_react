@@ -139,11 +139,20 @@ export default function RegisterForm() {
          })
             .then((response) => {
                if (response.status !== 400) {
-                  setisRedirect(true);
-                  console.log(response);
+                  addToast("Successfully created an accout, please log in", {
+                     appearance: "success",
+                     autoDismiss: true,
+                     autoDismissTimeout: 7000,
+                     placement: "top-center",
+                  });
                } else {
+                  addToast("Please check your credentials", {
+                     appearance: "error",
+                     autoDismiss: true,
+                     autoDismissTimeout: 7000,
+                     placement: "top-center",
+                  });
                   setIsLoading(false);
-                  console.log(response);
                }
                return response.json();
             })
@@ -152,17 +161,16 @@ export default function RegisterForm() {
                if (data.user) {
                   setIsLoading(false);
                   setisRedirect(true);
-                  addToast("Successfully Created an Accout, Please Log in", {
-                     appearance: "success",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
                }
             });
       } else {
-         alert("form not valid");
          setIsLoading(false);
+         addToast("Please check your credentials", {
+            appearance: "error",
+            autoDismiss: true,
+            autoDismissTimeout: 7000,
+            placement: "top-center",
+         });
       }
    };
 
