@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import useRedirect from "./../hooks/isRedirect";
+import RegisterForm from "./../components/RegisterForm";
 
 const Register = () => {
    const [userRegistration, setUserRegistration] = useState({
@@ -15,7 +17,7 @@ const Register = () => {
       message: "",
    });
 
-   const [isRedirect, setisRedirect] = useState(true);
+   const [isRedirect, setisRedirect] = useRedirect(false);
 
    const handleChange = (e) => {
       setUserRegistration({
@@ -65,39 +67,7 @@ const Register = () => {
    }
    return (
       <div>
-         <form onSubmit={handleSubmit}>
-            <label htmlFor="firstname">firstname:</label>
-            <input
-               type="text"
-               name="firstname"
-               id="firstname"
-               onChange={handleChange}
-            />
-            <label htmlFor="lastname">lastname:</label>
-            <input
-               type="text"
-               name="lastname"
-               id="lastname"
-               onChange={handleChange}
-            />
-            <label htmlFor="email">email:</label>
-            <input
-               type="text"
-               name="email"
-               id="email"
-               onChange={handleChange}
-            />
-            <label htmlFor="password">password:</label>
-            <input
-               type="text"
-               name="password"
-               id="password"
-               onChange={handleChange}
-            />
-            <button type="submit" className="btn btn-success">
-               register
-            </button>
-         </form>
+         <RegisterForm />
       </div>
    );
 };

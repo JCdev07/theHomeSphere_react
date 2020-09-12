@@ -12,7 +12,7 @@ import PropertySingle from "./Pages/PropertySingle";
 import Transactions from "./Pages/Transactions";
 import TransactionSingle from "./Pages/TransactionSingle";
 import ConfirmBooking from "./Pages/ConfirmBooking";
-import UserNavigation from "./Components/UserNavigation";
+import UserNavigation from "./components/UserNavigation";
 
 function App() {
    const [user, setUser] = useState(null);
