@@ -28,10 +28,11 @@ export default function InputGroup({
    handleChange,
    formError,
    className,
+   label,
 }) {
    return (
       <div className={className}>
-         <FormLabel htmlFor="firstname">First Name</FormLabel>
+         <FormLabel htmlFor="firstname">{label}</FormLabel>
          <FormInput
             type={type}
             name={name}
