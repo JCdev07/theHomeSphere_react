@@ -152,7 +152,7 @@ export default function RegisterForm() {
 
    // Redirect;
    if (isRedirect) {
-      if (user.isAdmin) return <Redirect to="/" />;
+      return <Redirect to="/" />;
    }
 
    return (

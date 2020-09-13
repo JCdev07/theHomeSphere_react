@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
+import Typography from "typography";
+import injectFonts from "typography-inject-fonts";
 
 // PAGES
 import Home from "./Pages/Home";
@@ -60,6 +62,25 @@ function App() {
             });
       }
    }, []);
+
+   const typography = new Typography({
+      baseFontSize: "15px",
+      baseLineHeight: 1.666,
+      headerFontFamily: [
+         "Avenir Next",
+         "Helvetica Neue",
+         "Segoe UI",
+         "Helvetica",
+         "Arial",
+         "sans-serif",
+      ],
+      bodyFontFamily: ["Georgia", "serif"],
+      // See below for the full list of options.
+   });
+
+   // Or insert styles directly into the <head> (works well for client-only
+   // JS web apps.
+   typography.injectStyles();
 
    return (
       <Router>

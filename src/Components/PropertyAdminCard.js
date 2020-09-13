@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import ModalToggler from "./ModalToggler";
-import ModalAddProperty from "./ModalAddProperty";
-import FormBtn from "./FormBtn";
-import InputGroup from "./InputGroup";
+import ModalPropertyToggler from "./SubComponents/ModalPropertyToggler";
+import CloseButton from "./SubComponents/CloseButton";
+import FormBtn from "./SubComponents/FormBtn";
+import InputGroup from "./SubComponents/InputGroup";
 import ImageUploader from "react-images-upload";
 import { useToasts } from "react-toast-notifications";
 import { Redirect } from "react-router-dom";
-
 import styled from "styled-components";
+
+const customStyles = {
+   content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      height: "90vh",
+      width: "80vw",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+   },
+};
 
 const FormWrapper = styled.form`
    text-align: center;
@@ -16,6 +28,7 @@ const FormWrapper = styled.form`
    & input,
    button {
       width: 50%;
+      border-radius: 120px;
    }
 
    & .fileContainer {
@@ -51,27 +64,10 @@ const FormWrapper = styled.form`
       border: 1px solid #8ebaaf;
       background-color: #8ebaaf;
       color: #666666;
-      border-radius: 120px;
    }
 `;
 
-const customStyles = {
-   content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      height: "90vh",
-      width: "80vw",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-   },
-};
-
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement("#root");
-
-function PropertyModal({ categories }) {
+const PropertyAdminCard = ({ property, categories }) => {
    const [addPropertyStatus, setAddPropertyStatus] = useState({
       name: "",
       price: "",
@@ -223,10 +219,6 @@ function PropertyModal({ categories }) {
       }
    };
 
-   if (isRedirect) {
-      return <Redirect to="/create-property" />;
-   }
-
    let categoryList = categories.map((category) => {
       return (
          <option value={category._id} key={category._id}>
@@ -237,16 +229,14 @@ function PropertyModal({ categories }) {
 
    return (
       <>
-         {/* Add Property Modal */}
-         <ModalAddProperty openModal={openModal} />
+         <ModalPropertyToggler property={property} openModal={openModal} />
          <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             style={customStyles}
             contentLabel="Example Modal"
          >
-            <button onClick={closeModal}>close</button>
-            <h3 className="text-center">Create Property</h3>
+            <CloseButton onClick={closeModal} />
             <FormWrapper onSubmit={handleSubmit}>
                <InputGroup
                   name="name"
@@ -357,5 +347,6 @@ function PropertyModal({ categories }) {
          </Modal>
       </>
    );
-}
-export default PropertyModal;
+};
+
+export default PropertyAdminCard;
