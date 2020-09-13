@@ -6,6 +6,11 @@ const CloseBtn = styled.span`
    cursor: pointer;
    padding: 0.5rem;
    border-radius: 50%;
+   transition: all 0.3s ease;
+
+   &:hover {
+      transform: scale(1.05);
+   }
 `;
 
 const CloseButton = ({ onClick }) => {

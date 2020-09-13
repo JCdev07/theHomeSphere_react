@@ -29,6 +29,8 @@ export default function InputGroup({
    formError,
    className,
    label,
+   value,
+   formDisabled,
 }) {
    return (
       <div className={className}>
@@ -48,6 +50,8 @@ export default function InputGroup({
                     }
                   : null
             }
+            disabled={formDisabled}
+            value={value}
          />
          <span className="errorMessage">{formError}</span>
       </div>

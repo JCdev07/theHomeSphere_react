@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import ModalPropertyToggler from "./SubComponents/ModalPropertyToggler";
+import LinkToSingleProp from "./SubComponents/LinkToSingleProp";
 import CloseButton from "./SubComponents/CloseButton";
+import EditButton from "./SubComponents/EditButton";
 import FormBtn from "./SubComponents/FormBtn";
 import InputGroup from "./SubComponents/InputGroup";
 import ImageUploader from "react-images-upload";
 import { useToasts } from "react-toast-notifications";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import styled from "styled-components";
 
 const customStyles = {
@@ -30,6 +32,11 @@ const FormWrapper = styled.form`
       width: 50%;
       border-radius: 120px;
    }
+
+   /* & img {
+      width: 100%;
+      height: 100%;
+   } */
 
    & .fileContainer {
       box-shadow: none;
@@ -69,17 +76,17 @@ const FormWrapper = styled.form`
 
 const PropertyAdminCard = ({ property, categories }) => {
    const [addPropertyStatus, setAddPropertyStatus] = useState({
-      name: "",
-      price: "",
-      address: "",
-      category: "",
-      coverImage: "",
-      images: [],
-      bathroom: "",
-      bedroom: "",
-      carSlot: "",
-      floorArea: "",
-      landArea: "",
+      name: property.name,
+      price: property.price,
+      address: property.address,
+      category: property.category,
+      coverImage: property.coverImage,
+      images: property.images,
+      bathroom: property.details.bathroom,
+      bedroom: property.details.bedroom,
+      carSlot: property.details.carSlot,
+      floorArea: property.details.floorArea,
+      landArea: property.details.landArea,
    });
 
    const { addToast } = useToasts();
@@ -89,6 +96,8 @@ const PropertyAdminCard = ({ property, categories }) => {
    const [isLoading, setIsLoading] = useState(false);
 
    const [isRedirect, setIsRedirect] = useState(false);
+
+   const [formDisabled, setFormDisabled] = useState(true);
 
    const [errMsg, setErrMsg] = useState({});
 
@@ -125,40 +134,44 @@ const PropertyAdminCard = ({ property, categories }) => {
       });
    };
 
-   useEffect(() => {
-      let {
-         name,
-         price,
-         address,
-         category,
-         coverImage,
-         images,
-         bathroom,
-         bedroom,
-         carSlot,
-         floorArea,
-         landArea,
-      } = addPropertyStatus;
-      if (
-         name.length !== 0 &&
-         price.length !== 0 &&
-         address.length !== 0 &&
-         category.length !== 0 &&
-         images.length !== 0 &&
-         bathroom.length !== 0 &&
-         bedroom.length !== 0 &&
-         carSlot.length !== 0 &&
-         floorArea.length !== 0 &&
-         landArea.length !== 0 &&
-         coverImage.length !== 0
-      ) {
-         setFormValid(true);
-      }
+   const handleEditBtn = () => {
+      setFormDisabled(false);
+   };
 
-      return function cleanup() {
-         setFormValid(false);
-      };
-   }, [addPropertyStatus]);
+   // useEffect(() => {
+   //    let {
+   //       name,
+   //       price,
+   //       address,
+   //       category,
+   //       coverImage,
+   //       images,
+   //       bathroom,
+   //       bedroom,
+   //       carSlot,
+   //       floorArea,
+   //       landArea,
+   //    } = addPropertyStatus;
+   //    if (
+   //       name.length !== 0 &&
+   //       price.length !== 0 &&
+   //       address.length !== 0 &&
+   //       category.length !== 0 &&
+   //       images.length !== 0 &&
+   //       bathroom.length !== 0 &&
+   //       bedroom.length !== 0 &&
+   //       carSlot.length !== 0 &&
+   //       floorArea.length !== 0 &&
+   //       landArea.length !== 0 &&
+   //       coverImage.length !== 0
+   //    ) {
+   //       setFormValid(true);
+   //    }
+
+   //    return function cleanup() {
+   //       setFormValid(false);
+   //    };
+   // }, [addPropertyStatus]);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -236,7 +249,15 @@ const PropertyAdminCard = ({ property, categories }) => {
             style={customStyles}
             contentLabel="Example Modal"
          >
-            <CloseButton onClick={closeModal} />
+            <img
+               src={`https://thehomesphereapi.herokuapp.com/${property.coverImage}`}
+               alt=""
+            />
+            <div className="d-flex justify-content-between align-items-center">
+               <CloseButton onClick={closeModal} />
+               <EditButton handleClick={handleEditBtn} />
+               <LinkToSingleProp link={`/properties/${property._id}`} />
+            </div>
             <FormWrapper onSubmit={handleSubmit}>
                <InputGroup
                   name="name"
@@ -244,6 +265,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Property Name"
                   handleChange={handleChange}
                   formError={errMsg.name}
+                  value={property.name}
+                  formDisabled={formDisabled}
                />
 
                <InputGroup
@@ -252,6 +275,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Rate Per Night"
                   handleChange={handleChange}
                   formError={errMsg.price}
+                  value={property.price}
+                  formDisabled={formDisabled}
                />
 
                <InputGroup
@@ -260,6 +285,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Address"
                   handleChange={handleChange}
                   formError={errMsg.address}
+                  value={property.address}
+                  formDisabled={formDisabled}
                />
 
                <div className="input-group w-50 mx-auto">
@@ -273,13 +300,13 @@ const PropertyAdminCard = ({ property, categories }) => {
                      id="Category"
                      name="category"
                      onChange={handleChange}
+                     disabled={formDisabled}
                   >
                      {categoryList}
                   </select>
                </div>
 
                <ImageUploader
-                  withIcon={true}
                   name="coverImage"
                   buttonText="Choose image"
                   onChange={onDropCoverImage}
@@ -291,7 +318,6 @@ const PropertyAdminCard = ({ property, categories }) => {
                />
 
                <ImageUploader
-                  withIcon={true}
                   name="images"
                   singleImage={false}
                   buttonText="Choose images"
@@ -309,6 +335,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Bathroom Count"
                   handleChange={handleChange}
                   formError={errMsg.bathroom}
+                  value={property.details.bathroom}
+                  formDisabled={formDisabled}
                />
                <InputGroup
                   name="bedroom"
@@ -316,6 +344,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Bedroom Count"
                   handleChange={handleChange}
                   formError={errMsg.bedroom}
+                  value={property.details.bedroom}
+                  formDisabled={formDisabled}
                />
 
                <InputGroup
@@ -324,6 +354,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Car Parking Slots"
                   handleChange={handleChange}
                   formError={errMsg.carSlot}
+                  value={property.details.carSlot}
+                  formDisabled={formDisabled}
                />
 
                <InputGroup
@@ -332,6 +364,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Floor Area"
                   handleChange={handleChange}
                   formError={errMsg.floorArea}
+                  value={property.details.floorArea}
+                  formDisabled={formDisabled}
                />
 
                <InputGroup
@@ -340,6 +374,8 @@ const PropertyAdminCard = ({ property, categories }) => {
                   placeholder="Land Area"
                   handleChange={handleChange}
                   formError={errMsg.landArea}
+                  value={property.details.landArea}
+                  formDisabled={formDisabled}
                />
 
                <FormBtn formValid={formValid} isLoading={isLoading} />

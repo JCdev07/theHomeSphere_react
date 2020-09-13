@@ -64,7 +64,7 @@ function App() {
    }, []);
 
    const typography = new Typography({
-      baseFontSize: "15px",
+      baseFontSize: "16px",
       baseLineHeight: 1.666,
       headerFontFamily: [
          "Avenir Next",
