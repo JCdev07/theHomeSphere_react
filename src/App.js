@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
@@ -16,9 +16,48 @@ import ConfirmBooking from "./Pages/ConfirmBooking";
 import UserNavigation from "./components/UserNavigation";
 
 function App() {
-   const [user, setUser] = useState(null);
+   const [user, setUser] = useState({
+      isAuth: false,
+      id: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+   });
 
-   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+   // booking: {
+   //    property: "",
+   //    startDate: "",
+   //    endDate: "",
+   // },
+   // let userBooking = localStorage["booking"];
+
+   useEffect(() => {
+      let userCredentials = localStorage["userToken"];
+
+      if (userCredentials) {
+         fetch("https://thehomesphereapi.herokuapp.com/profile", {
+            headers: {
+               Authorization: `Bearer ${userCredentials}`,
+            },
+         })
+            .then((response) => {
+               console.log(response);
+               return response.json();
+            })
+            .then((data) => {
+               console.log(data);
+               if (data.user) {
+                  setUser({
+                     isAuth: true,
+                     id: data.user._id,
+                     firstname: data.user.firstname,
+                     lastname: data.user.lastname,
+                     email: data.user.email,
+                  });
+               }
+            });
+      }
+   }, []);
 
    return (
       <Router>

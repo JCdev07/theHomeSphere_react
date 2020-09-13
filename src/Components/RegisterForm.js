@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Wrapper, FormWrapper, Form, FormHeader } from "./RegisterFormStyle";
-import InputGroup from "./SubComponents/InputGroup";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import useRedirect from "./../hooks/isRedirect";
-import FormBtn from "./SubComponents/FormBtn";
 import { useToasts } from "react-toast-notifications";
+import InputGroup from "./SubComponents/InputGroup";
+import FormBtn from "./SubComponents/FormBtn";
 
 export default function RegisterForm() {
    const { addToast } = useToasts();
@@ -30,7 +29,7 @@ export default function RegisterForm() {
    const [formValid, setFormValid] = useState(false);
 
    // Redirect State
-   const [isRedirect, setisRedirect] = useRedirect(false);
+   const [isRedirect, setisRedirect] = useState(false);
 
    // isLoading State
    const [isLoading, setIsLoading] = useState(false);
@@ -243,7 +242,7 @@ export default function RegisterForm() {
 
                      {/* CTA */}
                      <div className="createAccount">
-                        <FormBtn isLoading={isLoading} />
+                        <FormBtn isLoading={isLoading} formValid={formValid} />
                         <small>
                            Already Have an Accont?{" "}
                            <Link to="/login">Log in</Link>

@@ -30,10 +30,14 @@ const BtnSpinner = styled.span`
    top: 36%;
 `;
 
-const FormBtn = ({ isLoading }) => {
+const FormBtn = ({ isLoading, formValid }) => {
    return (
       <>
-         <BtnWithSpinner type="submit" id="form-btn">
+         <BtnWithSpinner
+            type="submit"
+            id="form-btn"
+            disabled={!formValid || isLoading}
+         >
             Submit
             {isLoading ? (
                <BtnSpinner
