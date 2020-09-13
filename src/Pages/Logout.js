@@ -18,6 +18,7 @@ const Logout = () => {
          firstname: "",
          lastname: "",
          email: "",
+         isAdmin: false,
       });
       setisRedirect(true);
       addToast("Logged Out successfully", {

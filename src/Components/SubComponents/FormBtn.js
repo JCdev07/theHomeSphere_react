@@ -24,12 +24,6 @@ const BtnWithSpinner = styled.button`
    }
 `;
 
-const BtnSpinner = styled.span`
-   position: absolute;
-   right: 35%;
-   top: 36%;
-`;
-
 const FormBtn = ({ isLoading, formValid }) => {
    return (
       <>
@@ -38,15 +32,14 @@ const FormBtn = ({ isLoading, formValid }) => {
             id="form-btn"
             disabled={!formValid || isLoading}
          >
-            Submit
             {isLoading ? (
-               <BtnSpinner
+               <span
                   className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
-               ></BtnSpinner>
+               ></span>
             ) : (
-               ""
+               "Submit"
             )}
          </BtnWithSpinner>
       </>

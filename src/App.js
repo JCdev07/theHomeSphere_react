@@ -4,7 +4,6 @@ import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
 
 // PAGES
-import Admin from "./Pages/Admin";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -14,7 +13,9 @@ import Transactions from "./Pages/Transactions";
 import TransactionSingle from "./Pages/TransactionSingle";
 import ConfirmBooking from "./Pages/ConfirmBooking";
 import UserNavigation from "./components/UserNavigation";
+import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
+import CreateProperty from "./Pages/CreateProperty";
 
 function App() {
    const [user, setUser] = useState({
@@ -23,6 +24,7 @@ function App() {
       firstname: "",
       lastname: "",
       email: "",
+      isAdmin: false,
    });
 
    // booking: {
@@ -52,6 +54,7 @@ function App() {
                      firstname: data.user.firstname,
                      lastname: data.user.lastname,
                      email: data.user.email,
+                     isAdmin: data.user.isAdmin,
                   });
                }
             });
@@ -62,8 +65,7 @@ function App() {
       <Router>
          <UserContext.Provider value={{ user, setUser }}>
             <div className="App">
-               <UserNavigation />
-
+               {user.isAdmin ? <AdminNavigation /> : <UserNavigation />}
                <Switch>
                   <ToastProvider>
                      <Route exact path="/" component={Home} />
@@ -91,7 +93,13 @@ function App() {
                         path="/confirm-booking"
                         component={ConfirmBooking}
                      />
-                     <Route exact path="/admin" component={Admin} />
+
+                     {/* Admin Only Route */}
+                     <Route
+                        exact
+                        path="/create-property"
+                        component={CreateProperty}
+                     />
                   </ToastProvider>
                </Switch>
             </div>

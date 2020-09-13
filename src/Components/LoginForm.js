@@ -132,6 +132,7 @@ export default function RegisterForm() {
                      firstname: data.user.firstname,
                      lastname: data.user.lastname,
                      email: data.user.email,
+                     isAdmin: data.user.isAdmin,
                   });
 
                   setIsLoading(false);
@@ -151,7 +152,7 @@ export default function RegisterForm() {
 
    // Redirect;
    if (isRedirect) {
-      return <Redirect to="/" />;
+      if (user.isAdmin) return <Redirect to="/" />;
    }
 
    return (
