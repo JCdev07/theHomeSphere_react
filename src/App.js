@@ -14,6 +14,7 @@ import Transactions from "./Pages/Transactions";
 import TransactionSingle from "./Pages/TransactionSingle";
 import ConfirmBooking from "./Pages/ConfirmBooking";
 import UserNavigation from "./components/UserNavigation";
+import Logout from "./Pages/Logout";
 
 function App() {
    const [user, setUser] = useState({
@@ -41,11 +42,9 @@ function App() {
             },
          })
             .then((response) => {
-               console.log(response);
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                if (data.user) {
                   setUser({
                      isAuth: true,
@@ -69,6 +68,7 @@ function App() {
                   <ToastProvider>
                      <Route exact path="/" component={Home} />
                      <Route exact path="/login" component={Login} />
+                     <Route exact path="/logout" component={Logout} />
                      <Route exact path="/register" component={Register} />
                      <Route exact path="/properties" component={Properties} />
                      <Route

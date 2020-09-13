@@ -61,7 +61,13 @@ const UserNavigation = () => {
                   </li>
                   <li className="nav-item">
                      {user.isAuth ? (
-                        ""
+                        <NavLink
+                           activeClassName="active"
+                           className="nav-link"
+                           to="/logout"
+                        >
+                           Logout
+                        </NavLink>
                      ) : (
                         <NavLink
                            activeClassName="active"
