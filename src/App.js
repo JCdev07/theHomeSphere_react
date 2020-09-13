@@ -64,7 +64,7 @@ function App() {
    return (
       <Router>
          <UserContext.Provider value={{ user, setUser }}>
-            <div className="App">
+            <div className="App" id="root">
                {user.isAdmin ? <AdminNavigation /> : <UserNavigation />}
                <Switch>
                   <ToastProvider>

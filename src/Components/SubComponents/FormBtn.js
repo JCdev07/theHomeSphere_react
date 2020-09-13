@@ -4,7 +4,7 @@ import styled from "styled-components";
 const BtnWithSpinner = styled.button`
    background-color: #519e8a;
    color: #fff;
-   border: 2px solid #fff;
+   border: 2px solid #519e8a;
    width: 100%;
    margin-top: 1em;
    padding: 8px 0px;

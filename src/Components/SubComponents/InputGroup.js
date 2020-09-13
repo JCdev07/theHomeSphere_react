@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const FormLabel = styled.label`
-   font-size: 0.8em;
+   font-size: 0.7em;
    margin-bottom: 0.25em;
    color: #222;
    font-weight: lighter;
@@ -32,8 +32,9 @@ export default function InputGroup({
 }) {
    return (
       <div className={className}>
-         <FormLabel htmlFor="firstname">{label}</FormLabel>
+         <FormLabel htmlFor={name}>{label}</FormLabel>
          <FormInput
+            className="form-group"
             type={type}
             name={name}
             id={name}
