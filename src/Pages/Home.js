@@ -1,16 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import FeaturedProperties from "../components/FeaturedProperties";
+import Hero from "../components/Hero";
 import { UserContext } from "./../context/UserContext";
 
 const Home = () => {
-   const { user, setUser } = useContext(UserContext);
-   let userCredentials = localStorage["userToken"];
-   console.log(userCredentials, user);
-   return (
-      <div>
-         <h1>Home</h1>
-         <pre></pre>
+   const [properties, setProperties] = useState([]);
 
-         <button>Login</button>
+   useEffect(() => {
+      // setIsLoading(true);
+      fetch("https://thehomesphereapi.herokuapp.com/properties")
+         .then((response) => {
+            return response.json();
+         })
+         .then((data) => {
+            setProperties(data.properties);
+         });
+
+      return function cleanup() {
+         setProperties([]);
+      };
+   }, []);
+
+   return (
+      <div className="container-fluid my-5">
+         <Hero properties={properties} />
+         <FeaturedProperties properties={properties} />
       </div>
    );
 };
