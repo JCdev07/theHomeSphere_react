@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import FeaturedProperties from "../components/FeaturedProperties";
 import Hero from "../components/Hero";
-import { UserContext } from "./../context/UserContext";
-
 const Home = () => {
    const [properties, setProperties] = useState([]);
 

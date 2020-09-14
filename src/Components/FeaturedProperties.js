@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropertyCard from "./SubComponents/PropertyCard";
+import PropertyLargeCard from "./SubComponents/PropertyLargeCard";
 import HeadingH2 from "../components/SubComponents/HeadingH2";
+import { Redirect, Link } from "react-router-dom";
 
 const Card = styled.div`
    cursor: pointer;
@@ -66,42 +68,41 @@ const CardBody = styled.div`
       width: 60%;
    }
 `;
-const FeaturedContainer = styled.div`
-   border-radius: 6px;
+
+const FeaturedCont = styled.div`
+   padding: 1rem 4rem;
 `;
 
 function FeaturedProperties({ properties }) {
+   // const [isClicked, setIsClicked] = useState({ status: false, property: {} });
+
+   // const handleClick = (propertyClicked) => {
+   //    setIsClicked({ status: true, property: propertyClicked });
+   // };
+
+   // if (isClicked.status) {
+   //    setIsClicked({ ...isClicked, status: false });
+   //    return <Redirect to={`/properties/${isClicked.property._id}`} />;
+   // }
+
+   const FeaturedList = properties.map((property) => {
+      if (
+         properties[4]._id === property._id ||
+         properties[5]._id === property._id
+      ) {
+         return <PropertyLargeCard property={property} />;
+      }
+      return <PropertyCard property={property} />;
+   });
+
    return (
-      <div className="row mt-3 px-3 px-lg-5 mt-5">
-         <div className="col-12 mx-auto text-center mt-5">
-            <HeadingH2 text="Featured Properties" />
-         </div>
-         {properties.map((property) => {
-            if (
-               properties[4].id === property.id ||
-               properties[5].id === property.id
-            ) {
-               return (
-                  <FeaturedContainer
-                     key={property.id}
-                     className="col-12 col-md-6 col-lg-8 mt-5"
-                  >
-                     <Card className="card">
-                        <img
-                           src={`https://thehomesphereapi.herokuapp.com/${property.coverImage}`}
-                           className="card-img-top img-fluid"
-                           alt="..."
-                        />
-                        <CardBody className="card-body p-2">
-                           <h5 className="card-title m-0">__Card title__</h5>
-                           <small className="m-0">__Card title__</small>
-                        </CardBody>
-                     </Card>
-                  </FeaturedContainer>
-               );
-            }
-            return <PropertyCard property={property} />;
-         })}
+      <div className="container">
+         <FeaturedCont className="row mt-3 px-3 px-lg-5 mt-5">
+            <div className="col-12 mx-auto text-center mt-5">
+               <HeadingH2 text="Featured Properties" />
+            </div>
+            {FeaturedList}
+         </FeaturedCont>
       </div>
    );
 }

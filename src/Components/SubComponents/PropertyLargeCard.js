@@ -78,7 +78,7 @@ const PropertyCard = ({ property }) => {
    return (
       <FeaturedContainer
          key={property.id}
-         className="col-12 col-md-6 col-lg-4 mt-5 px-3"
+         className="col-12 col-md-6 col-lg-8 mt-5 px-3"
          onClick={() => setOnClick(true)}
       >
          <Card className="card">
