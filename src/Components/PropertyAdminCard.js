@@ -75,10 +75,10 @@ const FormWrapper = styled.form`
 `;
 
 const PropertyAdminCard = ({ property, categories }) => {
-   const [addPropertyStatus, setAddPropertyStatus] = useState({
+   const [propertyStatus, setPropertyStatus] = useState({
       name: property.name,
       price: property.price,
-      address: property.address,
+      // address: property.address,
       category: property.category,
       coverImage: property.coverImage,
       images: property.images,
@@ -99,13 +99,39 @@ const PropertyAdminCard = ({ property, categories }) => {
 
    const [formDisabled, setFormDisabled] = useState(true);
 
-   const [errMsg, setErrMsg] = useState({});
-
    const [modalIsOpen, setIsOpen] = React.useState(false);
 
+   // useEffect(() => {
+
+   // }, [property]);
+
+   const handleChange = (e) => {
+      // console.log(propertyStatus);
+      setPropertyStatus({
+         ...propertyStatus,
+         [e.target.name]: e.target.value,
+      });
+
+      if (
+         propertyStatus.name.length !== 0 &&
+         propertyStatus.price.length !== 0 &&
+         // propertyStatus.address.length !== 0 &&
+         propertyStatus.category.length !== 0 &&
+         propertyStatus.images.length !== 0 &&
+         propertyStatus.bathroom.length !== 0 &&
+         propertyStatus.bedroom.length !== 0 &&
+         propertyStatus.carSlot.length !== 0 &&
+         propertyStatus.floorArea.length !== 0 &&
+         propertyStatus.landArea.length !== 0 &&
+         propertyStatus.coverImage.length !== 0
+      ) {
+         setFormValid(true);
+      }
+   };
+
    const onDropCoverImage = (image) => {
-      setAddPropertyStatus({
-         ...addPropertyStatus,
+      setPropertyStatus({
+         ...propertyStatus,
          coverImage: image[0],
       });
 
@@ -113,8 +139,8 @@ const PropertyAdminCard = ({ property, categories }) => {
    };
 
    const onDropImages = (imagesArr) => {
-      setAddPropertyStatus({
-         ...addPropertyStatus,
+      setPropertyStatus({
+         ...propertyStatus,
          images: [...imagesArr],
       });
    };
@@ -125,53 +151,12 @@ const PropertyAdminCard = ({ property, categories }) => {
 
    function closeModal() {
       setIsOpen(false);
+      setFormDisabled(true);
    }
-
-   const handleChange = (e) => {
-      setAddPropertyStatus({
-         ...addPropertyStatus,
-         [e.target.name]: e.target.value,
-      });
-   };
 
    const handleEditBtn = () => {
       setFormDisabled(false);
    };
-
-   // useEffect(() => {
-   //    let {
-   //       name,
-   //       price,
-   //       address,
-   //       category,
-   //       coverImage,
-   //       images,
-   //       bathroom,
-   //       bedroom,
-   //       carSlot,
-   //       floorArea,
-   //       landArea,
-   //    } = addPropertyStatus;
-   //    if (
-   //       name.length !== 0 &&
-   //       price.length !== 0 &&
-   //       address.length !== 0 &&
-   //       category.length !== 0 &&
-   //       images.length !== 0 &&
-   //       bathroom.length !== 0 &&
-   //       bedroom.length !== 0 &&
-   //       carSlot.length !== 0 &&
-   //       floorArea.length !== 0 &&
-   //       landArea.length !== 0 &&
-   //       coverImage.length !== 0
-   //    ) {
-   //       setFormValid(true);
-   //    }
-
-   //    return function cleanup() {
-   //       setFormValid(false);
-   //    };
-   // }, [addPropertyStatus]);
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -180,28 +165,33 @@ const PropertyAdminCard = ({ property, categories }) => {
 
       if (formValid) {
          let formData = new FormData();
-         formData.append("name", addPropertyStatus.name);
-         formData.append("price", addPropertyStatus.price);
-         formData.append("category", addPropertyStatus.category);
-         formData.append("address", addPropertyStatus.address);
-         formData.append("coverImage", addPropertyStatus.coverImage);
-         formData.append("details.bathroom", addPropertyStatus.bathroom);
-         formData.append("details.bedroom", addPropertyStatus.bedroom);
-         formData.append("details.carSlot", addPropertyStatus.carSlot);
-         formData.append("details.floorArea", addPropertyStatus.floorArea);
-         formData.append("details.landArea", addPropertyStatus.landArea);
+         formData.append("name", propertyStatus.name);
+         formData.append("price", propertyStatus.price);
+         formData.append("category", propertyStatus.category._id);
+         // formData.append("address", propertyStatus.address);
+         formData.append("coverImage", propertyStatus.coverImage);
+         formData.append("details.bathroom", propertyStatus.bathroom);
+         formData.append("details.bedroom", propertyStatus.bedroom);
+         formData.append("details.carSlot", propertyStatus.carSlot);
+         formData.append("details.floorArea", propertyStatus.floorArea);
+         formData.append("details.landArea", propertyStatus.landArea);
 
-         addPropertyStatus.images.forEach((image) => {
+         propertyStatus.images.forEach((image) => {
             formData.append("images", image);
          });
 
-         fetch("https://thehomesphereapi.herokuapp.com/properties", {
-            method: "POST",
-            body: formData,
-            headers: {
-               Authorization: `Bearer ${localStorage["userToken"]}`,
-            },
-         })
+         console.log(formData);
+
+         fetch(
+            `https://thehomesphereapi.herokuapp.com/properties/${property._id}`,
+            {
+               method: "PUT",
+               body: formData,
+               headers: {
+                  Authorization: `Bearer ${localStorage["userToken"]}`,
+               },
+            }
+         )
             .then((response) => {
                if (response.status === 200) {
                   console.log(response);
@@ -240,6 +230,10 @@ const PropertyAdminCard = ({ property, categories }) => {
       );
    });
 
+   if (isRedirect) {
+      return <Redirect to={`/properties/${property._id}`} />;
+   }
+
    return (
       <>
          <ModalPropertyToggler property={property} openModal={openModal} />
@@ -264,8 +258,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="text"
                   placeholder="Property Name"
                   handleChange={handleChange}
-                  formError={errMsg.name}
-                  value={property.name}
+                  value={propertyStatus.name}
                   formDisabled={formDisabled}
                />
 
@@ -274,20 +267,18 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="number"
                   placeholder="Rate Per Night"
                   handleChange={handleChange}
-                  formError={errMsg.price}
-                  value={property.price}
+                  value={propertyStatus.price}
                   formDisabled={formDisabled}
                />
 
-               <InputGroup
+               {/* <InputGroup
                   name="address"
                   type="text"
                   placeholder="Address"
                   handleChange={handleChange}
-                  formError={errMsg.address}
-                  value={property.address}
+                  value={propertyStatus.address}
                   formDisabled={formDisabled}
-               />
+               /> */}
 
                <div className="input-group w-50 mx-auto">
                   <div className="input-group-prepend">
@@ -313,7 +304,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   imgExtension={[".jpg", ".gif", ".png", ".gif", ".jpeg"]}
                   maxFileSize={5242880}
                   withPreview={true}
-                  label="Choose Cover Image (Max: 5mb)"
+                  label={`Choose to Update Existing Cover Image`}
                   singleImage={true}
                />
 
@@ -325,7 +316,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   imgExtension={[".jpg", ".gif", ".png", ".gif", ".jpeg"]}
                   maxFileSize={5242880}
                   withPreview={true}
-                  label="Choose Images for Property (Max: 5mb)"
+                  label={`Choose to upade ${propertyStatus.images.length} Existing Images`}
                />
 
                <h6>Property Details</h6>
@@ -334,8 +325,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="number"
                   placeholder="Bathroom Count"
                   handleChange={handleChange}
-                  formError={errMsg.bathroom}
-                  value={property.details.bathroom}
+                  value={propertyStatus.bathroom}
                   formDisabled={formDisabled}
                />
                <InputGroup
@@ -343,8 +333,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="number"
                   placeholder="Bedroom Count"
                   handleChange={handleChange}
-                  formError={errMsg.bedroom}
-                  value={property.details.bedroom}
+                  value={propertyStatus.bedroom}
                   formDisabled={formDisabled}
                />
 
@@ -353,8 +342,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="number"
                   placeholder="Car Parking Slots"
                   handleChange={handleChange}
-                  formError={errMsg.carSlot}
-                  value={property.details.carSlot}
+                  value={propertyStatus.carSlot}
                   formDisabled={formDisabled}
                />
 
@@ -363,8 +351,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="text"
                   placeholder="Floor Area"
                   handleChange={handleChange}
-                  formError={errMsg.floorArea}
-                  value={property.details.floorArea}
+                  value={propertyStatus.floorArea}
                   formDisabled={formDisabled}
                />
 
@@ -373,8 +360,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   type="text"
                   placeholder="Land Area"
                   handleChange={handleChange}
-                  formError={errMsg.landArea}
-                  value={property.details.landArea}
+                  value={propertyStatus.landArea}
                   formDisabled={formDisabled}
                />
 

@@ -283,6 +283,7 @@ function PropertyModal({ categories }) {
                      name="category"
                      onChange={handleChange}
                   >
+                     <option value="">--Select Category Name--</option>
                      {categoryList}
                   </select>
                </div>

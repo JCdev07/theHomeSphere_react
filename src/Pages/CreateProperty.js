@@ -18,6 +18,10 @@ const CreateProperty = () => {
                console.log(data);
                setCategories(data.categories);
             });
+
+         return function cleanup() {
+            setCategories([]);
+         };
       }
    }, []);
 
@@ -28,10 +32,12 @@ const CreateProperty = () => {
             return response.json();
          })
          .then((data) => {
-            console.log(data);
             setProperties(data.properties);
-            setIsLoading(false);
          });
+
+      return function cleanup() {
+         setProperties([]);
+      };
    }, []);
 
    const propertyAdminCards = properties.map((property) => {
