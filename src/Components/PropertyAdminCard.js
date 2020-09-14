@@ -10,6 +10,7 @@ import ImageUploader from "react-images-upload";
 import { useToasts } from "react-toast-notifications";
 import { Redirect, Link } from "react-router-dom";
 import styled from "styled-components";
+import DeleteButton from "./SubComponents/DeleteButton";
 
 const customStyles = {
    content: {
@@ -97,6 +98,8 @@ const PropertyAdminCard = ({ property, categories }) => {
 
    const [isRedirect, setIsRedirect] = useState(false);
 
+   const [deletePropRedirect, setDeletePropRedirect] = useState(false);
+
    const [formDisabled, setFormDisabled] = useState(true);
 
    const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -106,7 +109,7 @@ const PropertyAdminCard = ({ property, categories }) => {
    // }, [property]);
 
    const handleChange = (e) => {
-      // console.log(propertyStatus);
+      // console.log();
       setPropertyStatus({
          ...propertyStatus,
          [e.target.name]: e.target.value,
@@ -158,10 +161,29 @@ const PropertyAdminCard = ({ property, categories }) => {
       setFormDisabled(false);
    };
 
+   const handleDeleteBtn = () => {
+      fetch(
+         `https://thehomesphereapi.herokuapp.com/properties/${property._id}`,
+         {
+            method: "delete",
+            headers: {
+               Authorization: `Bearer ${localStorage["userToken"]}`,
+            },
+         }
+      )
+         .then((res) => {
+            console.log(res);
+            return res.json();
+         })
+         .then((data) => {
+            console.log(data);
+            setDeletePropRedirect(true);
+         });
+   };
+
    const handleSubmit = (e) => {
       e.preventDefault();
       setIsLoading(true);
-      // console.log(typeof addPropertyStatus.images);
 
       if (formValid) {
          let formData = new FormData();
@@ -179,8 +201,6 @@ const PropertyAdminCard = ({ property, categories }) => {
          propertyStatus.images.forEach((image) => {
             formData.append("images", image);
          });
-
-         console.log(formData);
 
          fetch(
             `https://thehomesphereapi.herokuapp.com/properties/${property._id}`,
@@ -234,6 +254,10 @@ const PropertyAdminCard = ({ property, categories }) => {
       return <Redirect to={`/properties/${property._id}`} />;
    }
 
+   if (deletePropRedirect) {
+      return <Redirect to={`/create-property`} />;
+   }
+
    return (
       <>
          <ModalPropertyToggler property={property} openModal={openModal} />
@@ -250,6 +274,7 @@ const PropertyAdminCard = ({ property, categories }) => {
             <div className="d-flex justify-content-between align-items-center">
                <CloseButton onClick={closeModal} />
                <EditButton handleClick={handleEditBtn} />
+               <DeleteButton handleClick={handleDeleteBtn} />
                <LinkToSingleProp link={`/properties/${property._id}`} />
             </div>
             <FormWrapper onSubmit={handleSubmit}>
