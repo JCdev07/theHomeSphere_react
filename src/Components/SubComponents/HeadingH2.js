@@ -6,6 +6,7 @@ const Heading = styled.h2`
    text-align: center;
    position: relative;
    display: inline-block;
+   font-size: 1.3rem;
 
    &::before {
       width: 35%;
@@ -13,7 +14,7 @@ const Heading = styled.h2`
       background-color: steelblue;
       content: "";
       position: absolute;
-      top: -1%;
+      bottom: -2%;
       left: 0%;
       /* transform: translateX(-50%); */
    }

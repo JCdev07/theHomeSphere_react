@@ -1,9 +1,10 @@
 import React from "react";
+import HeadingH2 from "./../components/SubComponents/HeadingH2";
 
 const PropertySingle = () => {
    return (
       <div>
-         <h1>Property Single</h1>
+         <HeadingH2 text="All Properties Available to Rent" />
       </div>
    );
 };
