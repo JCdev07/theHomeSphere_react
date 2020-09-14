@@ -22,7 +22,7 @@ const Home = () => {
    }, []);
 
    return (
-      <div className="container-fluid my-5">
+      <div className="container-fluid my-5 px-5">
          <Hero properties={properties} />
          <FeaturedProperties properties={properties} />
       </div>
