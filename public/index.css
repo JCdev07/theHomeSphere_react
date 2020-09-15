@@ -5,3 +5,69 @@
 .route-wrapper > div {
    position: absolute;
 }
+
+.mogul-logo {
+   width: 120px;
+}
+
+.container-footer {
+   border: 1px rgb(201, 199, 199);
+   border-style: solid none solid none;
+   width: 900px;
+   padding: 10px 50px;
+   margin: 0 auto;
+   margin-bottom: 10px;
+   display: flex;
+   justify-content: space-around;
+}
+
+.container-footer a {
+   text-decoration: none;
+   margin-left: 10px;
+   color: black;
+}
+
+.container-footer p {
+   border-bottom: 2px solid #330066;
+   width: 70px;
+   margin: 0 auto;
+   margin-bottom: 10px;
+}
+
+.container-footer #mogul {
+   color: #330066;
+   font-weight: bolder;
+   opacity: 0.7;
+}
+
+.copyright {
+   opacity: 0.6;
+   color: gray;
+}
+
+.footer img {
+   margin-left: 5px;
+}
+
+@media only screen and (max-width: 700px) {
+   .container-footer {
+      margin: 0 auto;
+      width: 180px;
+   }
+   .container-footer p {
+      font-size: 13px;
+      width: 60px;
+   }
+   .container a {
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+      line-height: 18px;
+   }
+   .footer a {
+      font-size: 12px;
+   }
+   .footer img {
+      width: 15px;
+   }
+}

@@ -15,9 +15,10 @@ const PaymentOption = styled.div`
 `;
 
 const BtnWithSpinner = styled.button`
-   background-color: #519e8a;
+   background-color: #330066;
    color: #fff;
-   border: 2px solid #519e8a;
+   border: 2px solid #fff;
+   font-weight: 600;
    width: 100%;
    margin-top: 1em;
    padding: 8px 0px;
@@ -26,14 +27,18 @@ const BtnWithSpinner = styled.button`
    letter-spacing: 1px;
    margin-bottom: 0.25em;
    transition: all 0.3s ease;
-   position: relative;
+   border-radius: 120px;
 
-   &:focus {
-      border: 2px solid transparent;
+   &:hover {
+      color: #330066;
+      background-color: #fff;
+      border: 2px solid #330066;
    }
 
+   &:disabled,
    &[disabled] {
-      color: #fff;
+      border: 1px solid #7851a9;
+      background-color: #7851a9;
    }
 `;
 
@@ -118,7 +123,7 @@ const ConfirmBooking = (props) => {
             <div className="col-12 col-md-10 col-lg-8 mx-auto">
                <div className="col-12"></div>
                <HeadingH2 text="Confirm Booking" />
-               <div className="card ">
+               <div className="card pb-3">
                   <div className="card-header p-3 ">
                      <div className="d-flex justify-content-between align-items-center">
                         <h2>{bookingDetails.property.name}</h2>

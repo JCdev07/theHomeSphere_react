@@ -19,19 +19,21 @@ const TransContainer = styled.div`
       font-weight: 400;
    }
 
-   & span {
+   & .col-12 span {
       font-weight: 700;
    }
 
    & .row {
       height: 100%;
       width: 100%;
-      border-radius: 5px;
+      border-radius: 12px;
       overflow: hidden;
+      box-shadow: 1rem 1rem 2rem rgba(0, 0, 0, 0.1);
    }
 `;
 const TransDetailsContainer = styled.div`
-   background-color: lightcoral;
+   color: black;
+   background: #ddf1fa;
    height: 100%;
    display: flex;
    flex-direction: column;
@@ -39,8 +41,7 @@ const TransDetailsContainer = styled.div`
 `;
 
 const TransDetailsContainer2 = styled.div`
-   background-color: #f2f8ff;
-   width: 100%;
+   background: #ffff;
    display: flex;
    flex-direction: column;
    justify-content: space-around;
@@ -126,6 +127,7 @@ const TransactionSingle = () => {
                      />
                   </span>
                   <span>
+                     Created At:{" "}
                      {new Date(transactionDetails.createdAt).toDateString()}
                   </span>
                </div>

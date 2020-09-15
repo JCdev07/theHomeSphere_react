@@ -17,6 +17,7 @@ import UserNavigation from "./components/UserNavigation";
 import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
+import Footer from "./components/Footer";
 
 function App() {
    const [user, setUser] = useState({
@@ -82,7 +83,7 @@ function App() {
    return (
       <Router>
          <UserContext.Provider value={{ user, setUser }}>
-            <div className="App" id="root">
+            <div className="App" id="root" style={{ background: "#fefefe" }}>
                {user.isAdmin ? <AdminNavigation /> : <UserNavigation />}
                <Switch>
                   <ToastProvider>
@@ -120,6 +121,7 @@ function App() {
                      />
                   </ToastProvider>
                </Switch>
+               <Footer />
             </div>
          </UserContext.Provider>
       </Router>
