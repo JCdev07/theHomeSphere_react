@@ -24,6 +24,7 @@ const Logo = styled.p`
 
 const UserNavigation = () => {
    const { user } = useContext(UserContext);
+   console.log(user);
    return (
       <>
          <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -52,24 +53,49 @@ const UserNavigation = () => {
                         Home
                      </NavLink>
                   </li>
-                  <li className="nav-item">
-                     <NavLink
-                        activeClassName="active"
-                        className="nav-link"
-                        to="/property-control"
-                     >
-                        Property Control
-                     </NavLink>
-                  </li>
-                  <li className="nav-item">
-                     <NavLink
-                        activeClassName="active"
-                        className="nav-link"
-                        to="/transactions"
-                     >
-                        Transactions Control
-                     </NavLink>
-                  </li>
+                  {user.isAdmin ? (
+                     <>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/property-control"
+                           >
+                              Property Control
+                           </NavLink>
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/transactions"
+                           >
+                              Transactions Control
+                           </NavLink>
+                        </li>
+                     </>
+                  ) : (
+                     <>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/properties"
+                           >
+                              All Property
+                           </NavLink>
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/transactions"
+                           >
+                              Transactions
+                           </NavLink>
+                        </li>
+                     </>
+                  )}
                </ul>
                <ul className="navbar-nav ml-auto">
                   <li className="nav-item">

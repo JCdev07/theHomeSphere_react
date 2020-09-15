@@ -13,7 +13,6 @@ import PropertySingle from "./Pages/PropertySingle";
 import Transactions from "./Pages/Transactions";
 import TransactionSingle from "./Pages/TransactionSingle";
 import ConfirmBooking from "./Pages/ConfirmBooking";
-import UserNavigation from "./components/UserNavigation";
 import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
@@ -84,7 +83,7 @@ function App() {
       <Router>
          <UserContext.Provider value={{ user, setUser }}>
             <div className="App" id="root" style={{ background: "#fefefe" }}>
-               {user.isAdmin ? <AdminNavigation /> : <UserNavigation />}
+               <AdminNavigation />
                <Switch>
                   <ToastProvider>
                      <Route exact path="/" component={Home} />
