@@ -51,15 +51,6 @@ const UserNavigation = () => {
                      </NavLink>
                   </li>
                   <li className="nav-item">
-                     <NavLink
-                        activeClassName="active"
-                        className="nav-link"
-                        to="/confirm-booking"
-                     >
-                        Booking
-                     </NavLink>
-                  </li>
-                  <li className="nav-item">
                      {user.isAuth ? (
                         <NavLink
                            activeClassName="active"

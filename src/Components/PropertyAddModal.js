@@ -85,6 +85,8 @@ function PropertyModal({ categories }) {
       landArea: "",
    });
 
+   const [property, setProperty] = useState({});
+
    const { addToast } = useToasts();
 
    const [formValid, setFormValid] = useState(false);
@@ -215,6 +217,7 @@ function PropertyModal({ categories }) {
             .then((data) => {
                console.log(data);
                if (data.request === "success") {
+                  setProperty(data.property);
                   setIsLoading(false);
                   setIsRedirect(true);
                }
@@ -223,7 +226,7 @@ function PropertyModal({ categories }) {
    };
 
    if (isRedirect) {
-      return <Redirect to="/create-property" />;
+      return <Redirect to={`/properties/${property._id}`} />;
    }
 
    let categoryList = categories.map((category) => {
@@ -252,7 +255,6 @@ function PropertyModal({ categories }) {
                   type="text"
                   placeholder="Property Name"
                   handleChange={handleChange}
-                  formError={errMsg.name}
                />
 
                <InputGroup
@@ -260,7 +262,6 @@ function PropertyModal({ categories }) {
                   type="number"
                   placeholder="Rate Per Night"
                   handleChange={handleChange}
-                  formError={errMsg.price}
                />
 
                <InputGroup
@@ -268,7 +269,6 @@ function PropertyModal({ categories }) {
                   type="text"
                   placeholder="Address"
                   handleChange={handleChange}
-                  formError={errMsg.address}
                />
 
                <div className="input-group w-50 mx-auto">

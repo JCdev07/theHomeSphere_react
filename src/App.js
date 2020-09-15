@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
 import Typography from "typography";
-import injectFonts from "typography-inject-fonts";
 
 // PAGES
 import Home from "./Pages/Home";

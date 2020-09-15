@@ -29,7 +29,7 @@ const ModalToggler = ({ openModal, property }) => {
             <ModalToggle id="model" onClick={openModal}>
                <Badge
                   text={property.isRented ? "Not Available" : "Available"}
-                  type={property.isRented ? "error" : "primary"}
+                  type={property.isRented ? "danger" : "primary"}
                />
                {/* <h5 className="mt-2 mb-0">{property.name}</h5> */}
                <h5 className="mb-0 d-flex justify-content-between mt-2">

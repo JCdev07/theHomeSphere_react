@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import ModalToggler from "../components/SubComponents/ModalToggler";
 import PropertyAddModal from "../components/PropertyAddModal";
 import PropertyAdminCard from "../components/PropertyAdminCard";
+import HeadingH2 from "../components/SubComponents/HeadingH2";
 
 const CreateProperty = () => {
    const [properties, setProperties] = useState([]);
    const [categories, setCategories] = useState([]);
+   const [transactions, setTransactions] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
 
    useEffect(() => {
@@ -40,6 +41,21 @@ const CreateProperty = () => {
       };
    }, []);
 
+   useEffect(() => {
+      setIsLoading(true);
+      fetch("https://thehomesphereapi.herokuapp.com/transactions")
+         .then((response) => {
+            return response.json();
+         })
+         .then((data) => {
+            setTransactions(data.transactions);
+         });
+
+      return function cleanup() {
+         setProperties([]);
+      };
+   }, []);
+
    const propertyAdminCards = properties.map((property) => {
       return (
          <PropertyAdminCard
@@ -55,7 +71,7 @@ const CreateProperty = () => {
          <div className="container">
             <div className="row mt-3">
                <div className="col-12 mx-auto">
-                  <h1>Property</h1>
+                  <HeadingH2 text="Property Control" />
                </div>
             </div>
             <div className="row">
@@ -64,6 +80,11 @@ const CreateProperty = () => {
                </div>
             </div>
             <div className="row">{propertyAdminCards}</div>
+            <div className="row mt-3">
+               <div className="col-12 mx-auto">
+                  <HeadingH2 text="Transactions Control" />
+               </div>
+            </div>
          </div>
       </>
    );

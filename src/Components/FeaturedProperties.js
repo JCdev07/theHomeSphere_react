@@ -90,9 +90,9 @@ function FeaturedProperties({ properties }) {
          properties[4]._id === property._id ||
          properties[5]._id === property._id
       ) {
-         return <PropertyLargeCard property={property} />;
+         return <PropertyLargeCard property={property} key={property._id} />;
       }
-      return <PropertyCard property={property} />;
+      return <PropertyCard property={property} key={property._id} />;
    });
 
    return (

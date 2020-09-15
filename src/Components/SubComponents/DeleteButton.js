@@ -9,9 +9,9 @@ const DeleteBtn = styled.button`
    border-radius: 120px;
    padding: 0 1rem;
    outline: none;
-   border: 1px solid #dbaf00;
-   color: #dbaf00;
-   background: #fff0b3;
+   border: 1px solid #e8135d;
+   color: #e8135d;
+   background: #fbd0df;
    box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.1);
    transition: all 0.3s ease;
    outline: none;
