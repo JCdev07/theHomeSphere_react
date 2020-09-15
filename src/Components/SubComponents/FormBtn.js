@@ -24,13 +24,14 @@ const BtnWithSpinner = styled.button`
    }
 `;
 
-const FormBtn = ({ isLoading, formValid }) => {
+const FormBtn = ({ isLoading, formValid, className }) => {
    return (
       <>
          <BtnWithSpinner
             type="submit"
             id="form-btn"
             disabled={!formValid || isLoading}
+            className={className}
          >
             {isLoading ? (
                <span

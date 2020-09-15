@@ -206,7 +206,6 @@ const AllPropertiesCard = ({ property }) => {
    if (isLinkClicked) {
       return <Redirect to={`/properties/${property._id}`} />;
    }
-   console.log(property);
    return (
       <div className="col-12 col-md-6 col-lg-4">
          <Make3dSpace id="make-3D-space">

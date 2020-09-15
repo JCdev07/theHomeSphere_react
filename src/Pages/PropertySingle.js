@@ -81,11 +81,16 @@ const PropertySingle = () => {
       endDate: "",
    });
 
+   const [category, setCategory] = useState({});
+
+   const [bookingConfirm, setBookingConfirm] = useState({});
+
    useEffect(() => {
       fetch(`https://thehomesphereapi.herokuapp.com/properties/${id}`)
          .then((response) => response.json())
          .then((data) => {
             setProperty(data.property);
+            setCategory(data.property.category);
             setIsLoading(false);
             setBookingDetails({
                ...bookingDetails,
@@ -111,6 +116,7 @@ const PropertySingle = () => {
          .then((data) => {
             console.log(data);
             if (data.request == "success") {
+               setBookingConfirm(data.bookingDetails);
                setIsRedirect(true);
             }
             setIsLoading(false);
@@ -118,7 +124,14 @@ const PropertySingle = () => {
    };
 
    if (isRedirect) {
-      return <Redirect to="/confirm-booking" />;
+      return (
+         <Redirect
+            to={{
+               pathname: "/confirm-booking",
+               state: { bookingDetails: bookingConfirm },
+            }}
+         />
+      );
    }
 
    const onDateChange = (startDate, endDate) => {
@@ -128,7 +141,6 @@ const PropertySingle = () => {
          endDate,
       });
    };
-
    return (
       <>
          <div className="container-fluid mt-5">
@@ -164,6 +176,7 @@ const PropertySingle = () => {
                      <HeadingH2 text={property.name} />
                      <h6>&#8369; {property.price}.00 / Night</h6>
                   </div>
+                  <h6 className="px-3">{category.name}</h6>
                   {!isLoading ? (
                      <div>
                         <DetailCont className="features-group mt-3">
