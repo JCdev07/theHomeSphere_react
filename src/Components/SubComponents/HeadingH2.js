@@ -11,7 +11,7 @@ const Heading = styled.h2`
    &::before {
       width: 35%;
       height: 3px;
-      background-color: steelblue;
+      background-color: #330066;
       content: "";
       position: absolute;
       bottom: -2%;

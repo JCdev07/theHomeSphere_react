@@ -36,9 +36,10 @@ export const Form = styled.form`
       align-items: center;
 
       & button {
-         background-color: #519e8a;
+         background-color: #330066;
          color: #fff;
          border: 2px solid #fff;
+         font-weight: 600;
          width: 100%;
          margin-top: 1em;
          padding: 8px 0px;
@@ -47,18 +48,18 @@ export const Form = styled.form`
          letter-spacing: 1px;
          margin-bottom: 0.25em;
          transition: all 0.3s ease;
+         border-radius: 120px;
 
          &:hover {
-            color: #519e8a;
+            color: #330066;
             background-color: #fff;
-            border: 2px solid #519e8a;
+            border: 2px solid #330066;
          }
 
          &:disabled,
          &[disabled] {
-            border: 1px solid #8ebaaf;
-            background-color: #8ebaaf;
-            color: #666666;
+            border: 1px solid #7851a9;
+            background-color: #7851a9;
          }
       }
 
@@ -82,6 +83,8 @@ export const Wrapper = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
+      url("https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
 `;
 
 export const FormWrapper = styled.div`
@@ -91,7 +94,7 @@ export const FormWrapper = styled.div`
    padding: 20px 40px;
    border-radius: 10px;
    box-shadow: 0px 10px 50px #555;
-   background-color: #ffffff;
+   background-color: #f8f8ff;
 
    @media (min-width: 576px) {
       max-width: 490px;

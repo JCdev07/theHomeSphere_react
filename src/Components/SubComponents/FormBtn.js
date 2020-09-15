@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const BtnWithSpinner = styled.button`
-   background-color: #519e8a;
+   background-color: #ae87d0;
    color: #fff;
-   border: 2px solid #519e8a;
+   border: 2px solid #7851a9;
    width: 100%;
    margin-top: 1em;
    padding: 8px 0px;

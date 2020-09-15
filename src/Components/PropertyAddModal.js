@@ -5,9 +5,9 @@ import CloseButton from "./SubComponents/CloseButton";
 import FormBtn from "./SubComponents/FormBtn";
 import InputGroup from "./SubComponents/InputGroup";
 import ImageUploader from "react-images-upload";
-import { useToasts } from "react-toast-notifications";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import cogoToast from "cogo-toast";
 
 const FormWrapper = styled.form`
    text-align: center;
@@ -86,9 +86,6 @@ function PropertyModal({ categories }) {
    });
 
    const [property, setProperty] = useState({});
-
-   const { addToast } = useToasts();
-
    const [formValid, setFormValid] = useState(false);
 
    const [isLoading, setIsLoading] = useState(false);
@@ -104,8 +101,6 @@ function PropertyModal({ categories }) {
          ...addPropertyStatus,
          coverImage: image[0],
       });
-
-      console.log(image);
    };
 
    const onDropImages = (imagesArr) => {
@@ -196,26 +191,26 @@ function PropertyModal({ categories }) {
          })
             .then((response) => {
                if (response.status === 200) {
-                  console.log(response);
-                  addToast("Successfully Created a Property", {
-                     appearance: "success",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.success("Successfully Created a Property");
+                  // addToast("Successfully Created a Property", {
+                  //    appearance: "success",
+                  //    autoDismiss: true,
+                  //    autoDismissTimeout: 7000,
+                  //    placement: "top-center",
+                  // });
                } else {
-                  addToast("Please check your inputs", {
-                     appearance: "error",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.error("Error! Please check your inputs");
+                  // addToast("Please check your inputs", {
+                  //    appearance: "error",
+                  //    autoDismiss: true,
+                  //    autoDismissTimeout: 7000,
+                  //    placement: "top-center",
+                  // });
                   setIsLoading(false);
                }
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                if (data.request === "success") {
                   setProperty(data.property);
                   setIsLoading(false);

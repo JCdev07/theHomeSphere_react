@@ -143,9 +143,9 @@ const PropertySingle = () => {
    };
    return (
       <>
-         <div className="container-fluid mt-5">
+         <div className="container-fluid">
             <div className="row">
-               <Header className="col-12">
+               <Header className="col-12 p-0">
                   <CarouselCont />
                </Header>
             </div>
@@ -153,7 +153,7 @@ const PropertySingle = () => {
          <div className="container mb-5">
             <div className="row">
                <div className="col-12 col-md-8 col-lg-6 mt-4 mx-auto">
-                  <div className="col-12 d-flex justify-content-center align-items-center mb-3">
+                  <div className="col-12 justify-content-center align-items-center mb-3">
                      <RangeDatePicker
                         startDatePlaceholder="From"
                         endDatePlaceholder="To"
@@ -165,10 +165,10 @@ const PropertySingle = () => {
                         endDatePlaceholder="End Date"
                      />
                      <BtnWithSpinner
-                        className="ml-2 d-flex justify-content-around align-items-center"
+                        className="ml-2 mt-2 d-flex justify-content-center align-items-center w-50 mx-auto"
                         onClick={handleClick}
                      >
-                        Book
+                        <span>Book</span>
                         <BiSend />
                      </BtnWithSpinner>
                   </div>
@@ -177,6 +177,9 @@ const PropertySingle = () => {
                      <h6>&#8369; {property.price}.00 / Night</h6>
                   </div>
                   <h6 className="px-3">{category.name}</h6>
+                  <h6 className="px-3">
+                     {property.address ? property.address : ""}
+                  </h6>
                   {!isLoading ? (
                      <div>
                         <DetailCont className="features-group mt-3">

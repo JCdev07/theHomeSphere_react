@@ -49,7 +49,7 @@ const CardBody = styled.div`
       content: "";
       height: 100%;
       width: 100%;
-      background-color: steelblue;
+      background-color: #330066;
       display: block;
       position: absolute;
       top: 0;

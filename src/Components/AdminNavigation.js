@@ -36,9 +36,9 @@ const UserNavigation = () => {
                      <NavLink
                         activeClassName="active"
                         className="nav-link"
-                        to="/create-property"
+                        to="/property-control"
                      >
-                        Create Property
+                        Property Control
                      </NavLink>
                   </li>
                   <li className="nav-item">
@@ -47,7 +47,7 @@ const UserNavigation = () => {
                         className="nav-link"
                         to="/transactions"
                      >
-                        Transactions
+                        Transactions Control
                      </NavLink>
                   </li>
                   <li className="nav-item">

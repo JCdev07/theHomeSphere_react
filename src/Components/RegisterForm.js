@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Wrapper, FormWrapper, Form, FormHeader } from "./RegisterFormStyle";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
 import InputGroup from "./SubComponents/InputGroup";
 import FormBtn from "./SubComponents/FormBtn";
+import cogoToast from "cogo-toast";
 
 export default function RegisterForm() {
-   const { addToast } = useToasts();
-
    // Registration State
    const [registerStatus, setRegisterStatus] = useState({
       firstname: "",
@@ -138,25 +136,16 @@ export default function RegisterForm() {
          })
             .then((response) => {
                if (response.status !== 400) {
-                  addToast("Successfully created an accout, please log in", {
-                     appearance: "success",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.success(
+                     "Successfully created an accout, please log in"
+                  );
                } else {
-                  addToast("Please check your credentials", {
-                     appearance: "error",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.error("Error! Please check your credentials");
                   setIsLoading(false);
                }
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                if (data.user) {
                   setIsLoading(false);
                   setisRedirect(true);
@@ -164,12 +153,7 @@ export default function RegisterForm() {
             });
       } else {
          setIsLoading(false);
-         addToast("Please check your credentials", {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 7000,
-            placement: "top-center",
-         });
+         cogoToast.error("Error! Please check your credentials");
       }
    };
 

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import HeadingH2 from "./../components/SubComponents/HeadingH2";
-import FormBtn from "./../components/SubComponents/FormBtn";
 import styled from "styled-components";
 import { RangeDatePicker } from "react-google-flight-datepicker";
 import "react-google-flight-datepicker/dist/main.css";
 import { RadioGroup, RadioButton } from "react-radio-buttons";
 import { FaStripe, FaCcPaypal } from "react-icons/fa";
+import cogoToast from "cogo-toast";
 
 const PaymentOption = styled.div`
    & svg {
@@ -95,6 +95,7 @@ const ConfirmBooking = (props) => {
                setTransactionDetails(data.transaction);
                setIsLoading(false);
                setIsRedirect(true);
+               cogoToast.success("Successfully Created a Transaction");
             }
          });
    };

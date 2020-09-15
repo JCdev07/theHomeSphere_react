@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import PropertyAddModal from "../components/PropertyAddModal";
 import PropertyAdminCard from "../components/PropertyAdminCard";
 import HeadingH2 from "../components/SubComponents/HeadingH2";
+import cogoToast from "cogo-toast";
 
 const CreateProperty = () => {
    const [properties, setProperties] = useState([]);
    const [categories, setCategories] = useState([]);
-   const [transactions, setTransactions] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
 
    useEffect(() => {
+      cogoToast.loading("Loading All Assets...", { hideAfter: 5 });
       if (!categories.length) {
          fetch("https://thehomesphereapi.herokuapp.com/categories")
             .then((response) => {
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                setCategories(data.categories);
             });
 
@@ -28,27 +28,16 @@ const CreateProperty = () => {
 
    useEffect(() => {
       setIsLoading(true);
+
       fetch("https://thehomesphereapi.herokuapp.com/properties")
          .then((response) => {
             return response.json();
          })
          .then((data) => {
+            cogoToast.success("All Property Successfully Loaded", {
+               position: "top-right",
+            });
             setProperties(data.properties);
-         });
-
-      return function cleanup() {
-         setProperties([]);
-      };
-   }, []);
-
-   useEffect(() => {
-      setIsLoading(true);
-      fetch("https://thehomesphereapi.herokuapp.com/transactions")
-         .then((response) => {
-            return response.json();
-         })
-         .then((data) => {
-            setTransactions(data.transactions);
          });
 
       return function cleanup() {
@@ -79,11 +68,8 @@ const CreateProperty = () => {
                   <PropertyAddModal categories={categories} />
                </div>
             </div>
-            <div className="row">{propertyAdminCards}</div>
-            <div className="row mt-3">
-               <div className="col-12 mx-auto">
-                  <HeadingH2 text="Transactions Control" />
-               </div>
+            <div className="row" id="properties-container">
+               {propertyAdminCards}
             </div>
          </div>
       </>

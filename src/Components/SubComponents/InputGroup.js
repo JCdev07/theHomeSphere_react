@@ -10,11 +10,12 @@ const FormLabel = styled.label`
 
 const FormInput = styled.input`
    padding: 10px 10px;
-   border-radius: 5px;
+   border-radius: 120px;
    outline: none;
    border: 1px solid #cfcfcf;
+   display: flex;
 
-   &::placeholder {
+   &[placeholder] {
       font-size: 1.2em;
       font-weight: lighter;
       color: #999;
@@ -36,7 +37,7 @@ export default function InputGroup({
       <div className={className}>
          <FormLabel htmlFor={name}>{label}</FormLabel>
          <FormInput
-            className="form-group"
+            className="form-control"
             type={type}
             name={name}
             id={name}

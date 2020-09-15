@@ -51,7 +51,7 @@ const CardBody = styled.div`
       content: "";
       height: 100%;
       width: 100%;
-      background-color: steelblue;
+      background-color: #330066;
       display: block;
       position: absolute;
       top: 0;
@@ -85,7 +85,7 @@ function FeaturedProperties({ properties }) {
    //    return <Redirect to={`/properties/${isClicked.property._id}`} />;
    // }
 
-   const FeaturedList = properties.map((property) => {
+   const FeaturedList = properties.slice(0, 7).map((property) => {
       if (
          properties[4]._id === property._id ||
          properties[5]._id === property._id

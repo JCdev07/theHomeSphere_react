@@ -101,7 +101,7 @@ const ProductCard = styled.div`
 
       & .product_price {
          float: right;
-         color: #48cfad;
+         color: #330066;
          font-size: 15px;
          font-weight: 600;
       }
@@ -113,10 +113,12 @@ const ProductCard = styled.div`
       left: 0;
       width: 100%;
       height: 100%;
-      background: #48daa1;
+      background-image: linear-gradient(
+         rgba(82, 45, 128, 0.4),
+         rgba(82, 45, 128, 0.8)
+      );
       opacity: 0;
    }
-
    & .product-options {
       padding: 2px 0 0;
 
@@ -192,7 +194,7 @@ const ViewDetails = styled.div`
 
    &:hover {
       background: #fff;
-      color: #48cfad;
+      color: #7851a9;
       cursor: pointer;
    }
 `;
@@ -235,7 +237,11 @@ const AllPropertiesCard = ({ property }) => {
                            &#8369;{property.price}.00 / Night
                         </span>
                         <span className="product_name">{property.name}</span>
-                        <p>Men's running shirt</p>
+                        <p>
+                           {property.address
+                              ? property.address
+                              : "Property Address"}
+                        </p>
 
                         <div className="product-options d-flex justify-content-between align-items-center">
                            <div className="property-options-group d-flex flex-column align-items-center justify-content-center">

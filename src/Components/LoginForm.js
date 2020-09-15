@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
 import { Wrapper, FormWrapper, Form, FormHeader } from "./RegisterFormStyle";
 import InputGroup from "./SubComponents/InputGroup";
 import { Redirect } from "react-router-dom";
 import BtnWithSpinner from "./SubComponents/FormBtn";
 import { UserContext } from "../context/UserContext";
+import cogoToast from "cogo-toast";
 
 export default function RegisterForm() {
-   const { addToast } = useToasts();
-
    const { user, setUser } = useContext(UserContext);
 
    // Registration State
@@ -103,27 +101,15 @@ export default function RegisterForm() {
          })
             .then((response) => {
                if (response.status !== 400) {
-                  console.log(response);
-                  addToast("Logged in successfully", {
-                     appearance: "success",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.success("Successfully Logged In");
                } else {
-                  addToast("Please check your credentials", {
-                     appearance: "error",
-                     autoDismiss: true,
-                     autoDismissTimeout: 7000,
-                     placement: "top-center",
-                  });
+                  cogoToast.error("Error! Please Check Credentials");
                   setIsLoading(false);
                }
                console.log(response);
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                if (data.token) {
                   localStorage["userToken"] = data.token;
                   setUser({
@@ -141,12 +127,7 @@ export default function RegisterForm() {
             });
       } else {
          setIsLoading(false);
-         addToast("Email or Password incorrect", {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 7000,
-            placement: "top-center",
-         });
+         cogoToast.error("Email or Password Incorrect");
       }
    };
 

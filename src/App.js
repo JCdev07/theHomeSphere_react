@@ -16,7 +16,7 @@ import ConfirmBooking from "./Pages/ConfirmBooking";
 import UserNavigation from "./components/UserNavigation";
 import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
-import CreateProperty from "./Pages/CreateProperty";
+import CreateProperty from "./Pages/PropertyControl";
 
 function App() {
    const [user, setUser] = useState({
@@ -62,24 +62,22 @@ function App() {
       }
    }, []);
 
-   const typography = new Typography({
-      baseFontSize: "16px",
-      baseLineHeight: 1.666,
-      headerFontFamily: [
-         "Avenir Next",
-         "Helvetica Neue",
-         "Segoe UI",
-         "Helvetica",
-         "Arial",
-         "sans-serif",
-      ],
-      bodyFontFamily: ["Georgia", "serif"],
-      // See below for the full list of options.
-   });
+   // const typography = new Typography({
+   //    headerFontFamily: [
+   //       "Avenir Next",
+   //       "Helvetica Neue",
+   //       "Segoe UI",
+   //       "Helvetica",
+   //       "Arial",
+   //       "sans-serif",
+   //    ],
+   //    bodyFontFamily: ["Georgia", "serif"],
+   // See below for the full list of options.
+   // });
 
    // Or insert styles directly into the <head> (works well for client-only
    // JS web apps.
-   typography.injectStyles();
+   // typography.injectStyles();
 
    return (
       <Router>
@@ -117,7 +115,7 @@ function App() {
                      {/* Admin Only Route */}
                      <Route
                         exact
-                        path="/create-property"
+                        path="/property-control"
                         component={CreateProperty}
                      />
                   </ToastProvider>

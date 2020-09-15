@@ -10,6 +10,9 @@ import {
 } from "react-accessible-accordion";
 import styled from "styled-components";
 import "react-accessible-accordion/dist/fancy-example.css";
+import HeadingH2 from "./../components/SubComponents/HeadingH2";
+import FormBtn from "../components/SubComponents/FormBtn";
+import AccordionCont from "../components/Accordion";
 
 const AccordionContainer = styled.div`
    & .accordion__button:before {
@@ -29,6 +32,8 @@ const StyledLink = styled(Link)`
 export default function Transactions() {
    const [transactions, setTransactions] = useState([]);
 
+   const [transactionCount, setTransactionCount] = useState("");
+
    const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
@@ -43,6 +48,7 @@ export default function Transactions() {
             if (data.request == "succes") {
                setTransactions(data.transactions);
                setIsLoading(false);
+               setTransactionCount(data.transactions.length);
             }
          });
       return () => {
@@ -51,31 +57,19 @@ export default function Transactions() {
    }, []);
 
    const AccordionList = transactions.map((transaction) => {
-      return (
-         <AccordionItem key={transaction._id} className="mb-2">
-            <AccordionItemHeading>
-               <AccordionItemButton>
-                  {transaction.transactionId}
-               </AccordionItemButton>
-            </AccordionItemHeading>
-            <AccordionItemPanel>
-               <small className="p-0 m-0">
-                  <TimeAgo datetime={transaction.createdAt} />
-               </small>
-               <p className="p-0">
-                  {new Date(transaction.createdAt).toDateString()}
-               </p>
-               <h6 className="p-0 m-0 mb-2">&#8369; {transaction.total}.00</h6>
-               <StyledLink to={`/transactions/${transaction._id}`}>
-                  View More Details
-               </StyledLink>
-            </AccordionItemPanel>
-         </AccordionItem>
-      );
+      return <AccordionCont transaction={transaction} key={transaction._id} />;
    });
    return (
       <div className="container">
          <div className="row mt-5">
+            <div className="col-12 col-md-10 col-lg-8 mx-auto">
+               <HeadingH2 text="Transactions" />
+            </div>
+            <div className="col-12 col-md-10 col-lg-8 mx-auto">
+               <span>Showing {transactionCount} transactions</span>
+            </div>
+         </div>
+         <div className="row mt-2">
             <AccordionContainer className="col-12 col-md-10 col-lg-8 mx-auto">
                <Accordion allowZeroExpanded>{AccordionList}</Accordion>
             </AccordionContainer>
