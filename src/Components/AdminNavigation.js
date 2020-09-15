@@ -1,6 +1,26 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import styled from "styled-components";
+
+const Logo = styled.p`
+   font-size: 1.5rem;
+   width: auto;
+   color: #330066;
+   font-weight: 600;
+   margin: 0;
+   position: relative;
+
+   &::before {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: #330066;
+      position: absolute;
+      bottom: 0;
+   }
+`;
 
 const UserNavigation = () => {
    const { user } = useContext(UserContext);
@@ -8,7 +28,7 @@ const UserNavigation = () => {
       <>
          <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <NavLink className="navbar-brand" to="/">
-               Navbar
+               <Logo>HomeSphere</Logo>
             </NavLink>
             <button
                className="navbar-toggler"
@@ -50,6 +70,8 @@ const UserNavigation = () => {
                         Transactions Control
                      </NavLink>
                   </li>
+               </ul>
+               <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                      {user.isAuth ? (
                         <NavLink

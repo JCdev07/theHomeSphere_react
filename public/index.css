@@ -49,6 +49,10 @@
    margin-left: 5px;
 }
 
+.navbar {
+   box-shadow: 2px, 0 1rem rgba(0, 0, 0, 0.1);
+}
+
 @media only screen and (max-width: 700px) {
    .container-footer {
       margin: 0 auto;

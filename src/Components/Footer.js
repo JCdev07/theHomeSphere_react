@@ -37,10 +37,14 @@ export default function Footer() {
                         src="https://imageog.flaticon.com/icons/png/512/106/106852.png?size=1200x630f&pad=10,10,10,10&ext=png&bg=FFFFFFFF"
                         width="20px"
                      />
-                     <a className="copyright">
-                        Copyright For Educational Purposes Only
-                     </a>
                   </div>
+               </div>
+            </div>
+            <div className="row">
+               <div className="col-12 mx-auto text-center">
+                  <FooterLink to="#" className="copyright">
+                     For Educational Purposes Only
+                  </FooterLink>
                </div>
             </div>
          </div>
