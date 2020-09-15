@@ -49,7 +49,7 @@ const ConfirmBooking = (props) => {
       paymentMode: "Over The Counter",
    });
 
-   const [transactionId, setTransactionId] = useState("");
+   const [transactionDetails, setTransactionDetails] = useState({});
 
    const [isLoading, setIsLoading] = useState(false);
    const [isRedirect, setIsRedirect] = useState(false);
@@ -92,7 +92,7 @@ const ConfirmBooking = (props) => {
          })
          .then((data) => {
             if (data.request == "success") {
-               setTransactionId(data.transaction._id);
+               setTransactionDetails(data.transaction);
                setIsLoading(false);
                setIsRedirect(true);
             }
@@ -100,8 +100,15 @@ const ConfirmBooking = (props) => {
    };
 
    if (isRedirect) {
-      console.log(transactionId);
-      return <Redirect to={`/transactions/${transactionId}`} />;
+      console.log(transactionDetails);
+      return (
+         <Redirect
+            to={{
+               pathname: `/transactions/${transactionDetails._id}`,
+               state: { transactionDetails: transactionDetails },
+            }}
+         />
+      );
    }
 
    return (
