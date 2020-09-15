@@ -1,11 +1,261 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import CarouselCont from "./../components/Carousel";
+import { useParams } from "react-router-dom";
 import HeadingH2 from "./../components/SubComponents/HeadingH2";
+import styled from "styled-components";
+import { FaBed, FaCarAlt, FaBath, FaCoffee } from "react-icons/fa";
+import { BiWifi2, BiFridge, BiSend } from "react-icons/bi";
+import { ImSpoonKnife } from "react-icons/im";
+import { SiNetflix } from "react-icons/si";
+import { RiCake2Fill } from "react-icons/ri";
+import { RangeDatePicker } from "react-google-flight-datepicker";
+import "react-google-flight-datepicker/dist/main.css";
+
+const Header = styled.div`
+   & .carousel-slider {
+      & .carousel-img {
+         height: 100%;
+         object-fit: cover;
+         object-position: center;
+      }
+      & .carousel-img-div {
+         height: 70vh;
+      }
+   }
+`;
+
+const BtnWithSpinner = styled.button`
+   background-color: #519e8a;
+   color: #fff;
+   border: 2px solid #519e8a;
+   width: 120px;
+   padding: 8px 2px;
+   font-size: 1em;
+   font-weight: lighter;
+   letter-spacing: 1px;
+   margin-bottom: 0.25em;
+   transition: all 0.3s ease;
+   position: relative;
+   height: 90%;
+   border-radius: 4px;
+
+   &:focus {
+      border: 2px solid transparent;
+   }
+`;
+
+const DetailCont = styled.div`
+   border: 2px solid #d8d8d8;
+   box-sizing: border-box;
+   padding: 1rem;
+   font-size: 1rem;
+   border-radius: 5px;
+
+   & span {
+      margin-top: 0.3rem;
+   }
+
+   & svg {
+      color: #676767;
+      fill: #676767;
+      font-size: 0.9rem;
+   }
+   & .list-group-item {
+      border: none;
+   }
+`;
 
 const PropertySingle = () => {
+   const [property, setProperty] = useState({});
+
+   const { id } = useParams();
+
+   const [isLoading, setIsLoading] = useState(true);
+
+   const [isRedirect, setIsRedirect] = useState(false);
+
+   const [bookingDetails, setBookingDetails] = useState({
+      property: "",
+      startDate: "",
+      endDate: "",
+   });
+
+   useEffect(() => {
+      fetch(`https://thehomesphereapi.herokuapp.com/properties/${id}`)
+         .then((response) => response.json())
+         .then((data) => {
+            setProperty(data.property);
+            setIsLoading(false);
+            setBookingDetails({
+               ...bookingDetails,
+               property: data.property._id,
+            });
+         });
+   }, [id]);
+
+   const handleClick = () => {
+      setIsLoading(true);
+      fetch(`https://thehomesphereapi.herokuapp.com/booking`, {
+         method: "POST",
+         body: JSON.stringify(bookingDetails),
+         headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${localStorage["userToken"]}`,
+         },
+      })
+         .then((response) => {
+            console.log(response);
+            return response.json();
+         })
+         .then((data) => {
+            console.log(data);
+            if (data.request == "success") {
+               setIsRedirect(true);
+            }
+            setIsLoading(false);
+         });
+   };
+
+   if (isRedirect) {
+      return <Redirect to="/confirm-booking" />;
+   }
+
+   const onDateChange = (startDate, endDate) => {
+      setBookingDetails({
+         ...bookingDetails,
+         startDate,
+         endDate,
+      });
+   };
+
    return (
-      <div>
-         <HeadingH2 text="All Properties Available to Rent" />
-      </div>
+      <>
+         <div className="container-fluid mt-5">
+            <div className="row">
+               <Header className="col-12">
+                  <CarouselCont />
+               </Header>
+            </div>
+         </div>
+         <div className="container mb-5">
+            <div className="row">
+               <div className="col-12 col-md-8 col-lg-6 mt-4 mx-auto">
+                  <div className="col-12 d-flex justify-content-center align-items-center mb-3">
+                     <RangeDatePicker
+                        startDatePlaceholder="From"
+                        endDatePlaceholder="To"
+                        highlightToday
+                        onChange={(startDate, endDate) =>
+                           onDateChange(startDate, endDate)
+                        }
+                        startDatePlaceholder="Start Date"
+                        endDatePlaceholder="End Date"
+                     />
+                     <BtnWithSpinner
+                        className="ml-2 d-flex justify-content-around align-items-center"
+                        onClick={handleClick}
+                     >
+                        Book
+                        <BiSend />
+                     </BtnWithSpinner>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center px-3">
+                     <HeadingH2 text={property.name} />
+                     <h6>&#8369; {property.price}.00 / Night</h6>
+                  </div>
+                  {!isLoading ? (
+                     <div>
+                        <DetailCont className="features-group mt-3">
+                           <h6>Details</h6>
+                           <div className="product-options d-flex justify-content-between align-items-center">
+                              <div className="property-options-group d-flex flex-column align-items-center justify-content-center">
+                                 <FaBed />
+                                 <span>{property.details.bedroom}</span>
+                              </div>
+                              <div className="property-options-group d-flex flex-column align-items-center justify-content-center">
+                                 <FaBath />
+                                 <span>{property.details.bathroom}</span>
+                              </div>
+                              <div className="property-options-group d-flex flex-column align-items-center justify-content-center">
+                                 <FaCarAlt />
+                                 <span>{property.details.carSlot}</span>
+                              </div>
+                              <div className="property-options-group d-flex flex-column align-items-center justify-content-center">
+                                 <span className="m-0 p-0">Land Area</span>
+                                 <span>
+                                    {property.details.landArea}&#13217;
+                                 </span>
+                              </div>
+                              <div className="property-options-group d-flex flex-column align-items-center justify-content-center">
+                                 <span className="m-0 p-0">Floor Area</span>
+                                 <span>
+                                    {property.details.floorArea}&#13217;
+                                 </span>
+                              </div>
+                           </div>
+                        </DetailCont>
+                        <DetailCont className="features-group mt-3">
+                           <h6>Ameneties & Freebies</h6>
+                           <ul className="list-group">
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <BiWifi2 />
+                                    <span className="m-0 ml-2">
+                                       Free 100mbps Wifi
+                                    </span>
+                                 </div>
+                              </li>
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <FaCoffee />
+                                    <span className="m-0 ml-2">
+                                       Free Coffee
+                                    </span>
+                                 </div>
+                              </li>
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <ImSpoonKnife />
+                                    <span className="m-0 ml-2">
+                                       Free Breakfast
+                                    </span>
+                                 </div>
+                              </li>
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <SiNetflix />
+                                    <span className="m-0 ml-2">
+                                       Free Netflix
+                                    </span>
+                                 </div>
+                              </li>
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <BiFridge />
+                                    <span className="m-0 ml-2">
+                                       Free Fridge
+                                    </span>
+                                 </div>
+                              </li>
+                              <li className="list-group-item p-0">
+                                 <div className="property-options-group d-flex align-items-center">
+                                    <RiCake2Fill />
+                                    <span className="m-0 ml-2">
+                                       Free Cake on Your Birthday
+                                    </span>
+                                 </div>
+                              </li>
+                           </ul>
+                        </DetailCont>
+                     </div>
+                  ) : (
+                     ""
+                  )}
+               </div>
+            </div>
+         </div>
+      </>
    );
 };
 

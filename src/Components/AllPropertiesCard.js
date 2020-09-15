@@ -30,7 +30,7 @@ const ProductCard = styled.div`
    -o-transition: 100ms ease-out;
    transition: 100ms ease-out;
 
-   border: 1px solid #b6b8c9;
+   border: 1px solid #d8d8d8;
    border-radius: 2px;
 
    overflow: hidden;

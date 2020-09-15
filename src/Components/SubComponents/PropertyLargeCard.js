@@ -10,6 +10,8 @@ const Card = styled.div`
    transition: all 0.3s ease;
    border-radius: 4px;
    overflow: hidden;
+   border: 1px solid #d8d8d8;
+
    & img {
       width: auto;
       height: 100%;
