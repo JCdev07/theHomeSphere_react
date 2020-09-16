@@ -10,7 +10,7 @@ import PropertySingle from "./Pages/PropertySingle";
 import Transactions from "./Pages/Transactions";
 import TransactionSingle from "./Pages/TransactionSingle";
 import ConfirmBooking from "./Pages/ConfirmBooking";
-import AdminNavigation from "./components/AdminNavigation";
+// import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
 import Footer from "./components/Footer";
