@@ -27,7 +27,7 @@ const Properties = () => {
 
    return (
       <div className="container mb-5">
-         <div className="row mt-4">
+         <div className="row">
             <div className="col-12">
                <HeadingH2 text="All Properties Available to Rent" />
                <div className="d-flex col-6 col-md-4 col-lg-3 p-0 mt-2">

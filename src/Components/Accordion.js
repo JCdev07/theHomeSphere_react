@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import TimeAgo from "timeago-react"; //
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
    AccordionItem,
    AccordionItemHeading,
@@ -10,12 +10,7 @@ import {
 import styled from "styled-components";
 import "react-accessible-accordion/dist/fancy-example.css";
 import FormBtn from "../components/SubComponents/FormBtn";
-
-const AccordionContainer = styled.div`
-   & .accordion__button:before {
-      transition: all 0.2s ease;
-   }
-`;
+import { UserContext } from "../context/UserContext";
 
 const StyledLink = styled(Link)`
    &:link,
@@ -26,7 +21,37 @@ const StyledLink = styled(Link)`
    }
 `;
 
+const SubmitBtn = styled(FormBtn)`
+   background-color: #330066;
+   color: #fff;
+   border: 2px solid #fff;
+   font-weight: 600;
+   width: 100%;
+   margin-top: 1em;
+   padding: 8px 0px;
+   font-size: 1em;
+   font-weight: lighter;
+   letter-spacing: 1px;
+   margin-bottom: 0.25em;
+   transition: all 0.3s ease;
+   border-radius: 120px;
+
+   &:hover {
+      color: #330066;
+      background-color: #fff;
+      border: 2px solid #330066;
+   }
+
+   &:disabled,
+   &[disabled] {
+      border: 1px solid #7851a9;
+      background-color: #7851a9;
+   }
+`;
+
 export default function AccordionCont({ transaction }) {
+   const { user } = useContext(UserContext);
+
    const [isPaid, setIsPaid] = useState({ isPaid: null });
    const [status, setStatus] = useState({ status: "" });
 
@@ -116,51 +141,55 @@ export default function AccordionCont({ transaction }) {
             <StyledLink to={`/transactions/${transaction._id}`}>
                View More Details
             </StyledLink>
-            <form onSubmit={handleSubmit} className="m-0">
-               <div className="input-group m-0 p-0 mt-2 col-6">
-                  <div className="input-group-prepend">
-                     <label
-                        className="input-group-text"
-                        htmlFor="inputGroupSelect01"
+            {user.isAdmin ? (
+               <form onSubmit={handleSubmit} className="m-0">
+                  <div className="input-group m-0 p-0 mt-2 col-6">
+                     <div className="input-group-prepend">
+                        <label
+                           className="input-group-text"
+                           htmlFor="inputGroupSelect01"
+                        >
+                           Payment Status
+                        </label>
+                     </div>
+                     <select
+                        className="custom-select"
+                        id="status"
+                        defaultValue={transaction.isPaid ? true : false}
+                        onChange={(e) => setIsPaid(e.target.value)}
+                        name="isPaid"
                      >
-                        Payment Status
-                     </label>
+                        <option value={true}>Paid</option>
+                        <option value={false}>Unpaid</option>
+                     </select>
                   </div>
-                  <select
-                     className="custom-select"
-                     id="status"
-                     defaultValue={transaction.isPaid ? true : false}
-                     onChange={(e) => setIsPaid(e.target.value)}
-                     name="isPaid"
-                  >
-                     <option value={true}>Paid</option>
-                     <option value={false}>Unpaid</option>
-                  </select>
-               </div>
 
-               <div className="input-group m-0 p-0 mt-2 col-6">
-                  <div className="input-group-prepend">
-                     <label
-                        className="input-group-text"
-                        htmlFor="inputGroupSelect02"
+                  <div className="input-group m-0 p-0 mt-2 col-6">
+                     <div className="input-group-prepend">
+                        <label
+                           className="input-group-text"
+                           htmlFor="inputGroupSelect02"
+                        >
+                           Status
+                        </label>
+                     </div>
+                     <select
+                        className="custom-select"
+                        id="status"
+                        defaultValue={defineTransStatus(transaction.status)}
+                        onChange={handleChange}
+                        name="status"
                      >
-                        Status
-                     </label>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                     </select>
+                     <SubmitBtn formValid={true} isLoading={isLoading} />
                   </div>
-                  <select
-                     className="custom-select"
-                     id="status"
-                     defaultValue={defineTransStatus(transaction.status)}
-                     onChange={handleChange}
-                     name="status"
-                  >
-                     <option value="Rejected">Rejected</option>
-                     <option value="Pending">Pending</option>
-                     <option value="Confirmed">Confirmed</option>
-                  </select>
-                  <FormBtn formValid={true} isLoading={isLoading} />
-               </div>
-            </form>
+               </form>
+            ) : (
+               ""
+            )}
          </AccordionItemPanel>
       </AccordionItem>
    );

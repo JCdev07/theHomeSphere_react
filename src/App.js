@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
-import Typography from "typography";
-
-// PAGES
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -17,6 +14,7 @@ import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
 import Footer from "./components/Footer";
+import Page404 from "./Pages/Page404";
 
 function App() {
    const [user, setUser] = useState({
@@ -91,6 +89,23 @@ function App() {
                      <Route exact path="/logout" component={Logout} />
                      <Route exact path="/register" component={Register} />
                      <Route exact path="/properties" component={Properties} />
+
+                     <Route
+                        exact
+                        path="/transactions"
+                        component={Transactions}
+                     />
+                     {/* Admin Only Route */}
+                     <Route
+                        exact
+                        path="/property-control"
+                        component={CreateProperty}
+                     />
+                     <Route
+                        exact
+                        path="/confirm-booking"
+                        component={ConfirmBooking}
+                     />
                      <Route
                         exact
                         path="/properties/:id"
@@ -98,26 +113,11 @@ function App() {
                      />
                      <Route
                         exact
-                        path="/transactions"
-                        component={Transactions}
-                     />
-                     <Route
-                        exact
                         path="/transactions/:id"
                         component={TransactionSingle}
                      />
-                     <Route
-                        exact
-                        path="/confirm-booking"
-                        component={ConfirmBooking}
-                     />
 
-                     {/* Admin Only Route */}
-                     <Route
-                        exact
-                        path="/property-control"
-                        component={CreateProperty}
-                     />
+                     <Route path="*" component={Page404} />
                   </ToastProvider>
                </Switch>
                <Footer />

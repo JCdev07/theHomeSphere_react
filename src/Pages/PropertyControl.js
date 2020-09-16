@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import PropertyAddModal from "../components/PropertyAddModal";
 import PropertyAdminCard from "../components/PropertyAdminCard";
 import HeadingH2 from "../components/SubComponents/HeadingH2";
 import cogoToast from "cogo-toast";
+import { Redirect } from "react-router-dom";
 
 const CreateProperty = () => {
+   const { user } = useContext(UserContext);
+
    const [properties, setProperties] = useState([]);
    const [categories, setCategories] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
@@ -44,6 +48,10 @@ const CreateProperty = () => {
          setProperties([]);
       };
    }, []);
+
+   if (!user.isAdmin) {
+      return <Redirect to="/404" />;
+   }
 
    const propertyAdminCards = properties.map((property) => {
       return (

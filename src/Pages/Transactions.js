@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from "react";
-import TimeAgo from "timeago-react"; //
 import { Link } from "react-router-dom";
-import {
-   Accordion,
-   AccordionItem,
-   AccordionItemHeading,
-   AccordionItemButton,
-   AccordionItemPanel,
-} from "react-accessible-accordion";
+
+import { Accordion } from "react-accessible-accordion";
 import styled from "styled-components";
 import "react-accessible-accordion/dist/fancy-example.css";
 import HeadingH2 from "./../components/SubComponents/HeadingH2";
-import FormBtn from "../components/SubComponents/FormBtn";
 import AccordionCont from "../components/Accordion";
 
 const AccordionContainer = styled.div`
    & .accordion__button:before {
       transition: all 0.2s ease;
-   }
-`;
-
-const StyledLink = styled(Link)`
-   &:link,
-   &:visited,
-   &:hover {
-      text-decoration: none;
-      color: steelblue;
    }
 `;
 
