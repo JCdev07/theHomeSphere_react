@@ -25,6 +25,7 @@
       "react-toast-notifications": "^2.4.0",
       "styled-components": "^5.2.0",
       "timeago-react": "^3.0.0",
+      "typescript": "^3.2.4",
       "typography": "^0.16.19",
       "typography-inject-fonts": "0.0.0",
       "typography-theme-funston": "^0.16.19"
