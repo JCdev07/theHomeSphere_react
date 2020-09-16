@@ -13,7 +13,7 @@ import ConfirmBooking from "./Pages/ConfirmBooking";
 // import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Page404 from "./Pages/Page404";
 
 function App() {
