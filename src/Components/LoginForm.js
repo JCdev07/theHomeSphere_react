@@ -4,11 +4,11 @@ import { Wrapper, FormWrapper, Form, FormHeader } from "./RegisterFormStyle";
 import InputGroup from "./SubComponents/InputGroup";
 import { Redirect } from "react-router-dom";
 import BtnWithSpinner from "./SubComponents/FormBtn";
-import { UserContext } from "../context/UserContext";
+import { AppContext } from "../context/AppProvider";
 import cogoToast from "cogo-toast";
 
 export default function RegisterForm() {
-   const { user, setUser } = useContext(UserContext);
+   const [user, setUser] = useContext(AppContext);
 
    // Registration State
    const [loginStatus, setLoginStatus] = useState({
@@ -106,7 +106,6 @@ export default function RegisterForm() {
                   cogoToast.error("Error! Please Check Credentials");
                   setIsLoading(false);
                }
-               console.log(response);
                return response.json();
             })
             .then((data) => {

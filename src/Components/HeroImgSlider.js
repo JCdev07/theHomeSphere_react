@@ -11,19 +11,30 @@ const ImgSlider = styled(animated.div)`
    background-size: cover;
    background-position: center;
    will-change: opacity;
+
+   &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "";
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 2300;
+      display: block;
+      background-color: rgba(0, 0, 0, 0.2);
+   }
 `;
 
 // @ sliderImages === array of object with images
 
 const HeroImgSlider = ({ properties }) => {
    const images = [
-      "https://images.pexels.com/photos/373912/pexels-photo-373912.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/358502/pexels-photo-358502.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/462331/pexels-photo-462331.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/373893/pexels-photo-373893.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/290595/pexels-photo-290595.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      "https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://images.pexels.com/photos/280221/pexels-photo-280221.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://images.pexels.com/photos/1486785/pexels-photo-1486785.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://images.pexels.com/photos/681390/pexels-photo-681390.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://images.pexels.com/photos/1438834/pexels-photo-1438834.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      "https://images.pexels.com/photos/261229/pexels-photo-261229.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
    ];
 
    const [imgIndex, setImgIndex] = useState(0);
@@ -42,6 +53,7 @@ const HeroImgSlider = ({ properties }) => {
    );
    return transitions.map(({ item, props, key }) => (
       <ImgSlider
+         className="p-0"
          key={key}
          style={{ ...props, backgroundImage: `url(${item})` }}
       ></ImgSlider>

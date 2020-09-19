@@ -11,6 +11,7 @@ import { SiNetflix } from "react-icons/si";
 import { RiCake2Fill } from "react-icons/ri";
 import { RangeDatePicker } from "react-google-flight-datepicker";
 import "react-google-flight-datepicker/dist/main.css";
+import cogoToast from "cogo-toast";
 
 const Header = styled.div`
    & .carousel-slider {
@@ -59,6 +60,7 @@ const DetailCont = styled.div`
    padding: 1rem;
    font-size: 1rem;
    border-radius: 5px;
+   background-color: #fff;
 
    & span {
       margin-top: 0.3rem;
@@ -74,11 +76,11 @@ const DetailCont = styled.div`
    }
 `;
 
-const PropertySingle = () => {
+const PropertySingle = ({ user }) => {
    const [property, setProperty] = useState({});
 
    const { id } = useParams();
-
+   console.log(id, user);
    const [isLoading, setIsLoading] = useState(true);
 
    const [isRedirect, setIsRedirect] = useState(false);
@@ -93,10 +95,22 @@ const PropertySingle = () => {
 
    const [bookingConfirm, setBookingConfirm] = useState({});
 
+   let effectDep = id;
+
    useEffect(() => {
+      setIsLoading(true);
+      if (setIsLoading) {
+         cogoToast.loading("Loading Property Details...").then(() => {
+            cogoToast.success("Property Successfully Loaded");
+         });
+      }
       fetch(`https://thehomesphereapi.herokuapp.com/properties/${id}`)
-         .then((response) => response.json())
+         .then((response) => {
+            console.log(response);
+            return response.json();
+         })
          .then((data) => {
+            console.log(data);
             setProperty(data.property);
             setCategory(data.property.category);
             setIsLoading(false);
@@ -104,11 +118,16 @@ const PropertySingle = () => {
                ...bookingDetails,
                property: data.property._id,
             });
+            setIsLoading(false);
          });
-   }, [id]);
-
+   }, [effectDep]);
    const handleClick = () => {
-      setIsLoading(true);
+      localStorage["booking"] = JSON.stringify(bookingDetails);
+      if (setIsLoading) {
+         cogoToast.loading("Preparing Your Booking Details...").then(() => {
+            cogoToast.success("Please Confirm Your Booking Details.");
+         });
+      }
       fetch(`https://thehomesphereapi.herokuapp.com/booking`, {
          method: "POST",
          body: JSON.stringify(bookingDetails),
@@ -118,24 +137,24 @@ const PropertySingle = () => {
          },
       })
          .then((response) => {
-            console.log(response);
             return response.json();
          })
          .then((data) => {
-            console.log(data);
-            if (data.request == "success") {
+            if (data.request === "success") {
+               localStorage["booking"] = JSON.stringify(data.bookingDetails);
                setBookingConfirm(data.bookingDetails);
                setIsRedirect(true);
             }
             setIsLoading(false);
          });
+      setIsRedirect(true);
    };
 
    if (isRedirect) {
       return (
          <Redirect
             to={{
-               pathname: "/confirm-booking",
+               pathname: "/confirmbooking",
                state: { bookingDetails: bookingConfirm },
             }}
          />
@@ -154,32 +173,41 @@ const PropertySingle = () => {
          <div className="container-fluid">
             <div className="row">
                <Header className="col-12 p-0">
-                  <CarouselCont />
+                  {property.images ? (
+                     <CarouselCont
+                        propertyImages={property.images}
+                        coverImage={property.coverImage}
+                     />
+                  ) : (
+                     ""
+                  )}
                </Header>
             </div>
          </div>
          <div className="container mb-5">
             <div className="row">
                <div className="col-12 col-md-8 col-lg-6 mt-4 mx-auto">
-                  <div className="col-12 justify-content-center align-items-center mb-3">
-                     <RangeDatePicker
-                        startDatePlaceholder="From"
-                        endDatePlaceholder="To"
-                        highlightToday
-                        onChange={(startDate, endDate) =>
-                           onDateChange(startDate, endDate)
-                        }
-                        startDatePlaceholder="Start Date"
-                        endDatePlaceholder="End Date"
-                     />
-                     <BtnWithSpinner
-                        className="ml-2 mt-2 d-flex justify-content-center align-items-center w-50 mx-auto"
-                        onClick={handleClick}
-                     >
-                        <span>Book</span>
-                        <BiSend />
-                     </BtnWithSpinner>
-                  </div>
+                  {!user.isAdmin ? (
+                     <div className="col-12 justify-content-center align-items-center mb-3">
+                        <RangeDatePicker
+                           highlightToday
+                           onChange={(startDate, endDate) =>
+                              onDateChange(startDate, endDate)
+                           }
+                           startDatePlaceholder="Start Date"
+                           endDatePlaceholder="End Date"
+                        />
+                        <BtnWithSpinner
+                           className="ml-2 mt-2 d-flex justify-content-center align-items-center w-50 mx-auto"
+                           onClick={handleClick}
+                        >
+                           <span>Book</span>
+                           <BiSend />
+                        </BtnWithSpinner>
+                     </div>
+                  ) : (
+                     ""
+                  )}
                   <div className="d-flex justify-content-between align-items-center px-3">
                      <HeadingH2 text={property.name} />
                      <h6>&#8369; {property.price}.00 / Night</h6>

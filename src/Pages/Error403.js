@@ -21,7 +21,6 @@ const BtnWithSpinner = styled(Link)`
       color: #330066;
       background-color: #fff;
       border: 2px solid #330066;
-
       text-decoration: none;
    }
 
@@ -32,7 +31,7 @@ const BtnWithSpinner = styled(Link)`
    }
 `;
 
-const Page404 = () => {
+const Error403 = () => {
    return (
       <div className="container">
          <div className="row">
@@ -40,14 +39,9 @@ const Page404 = () => {
                <div id="notfound">
                   <div className="notfound">
                      <div className="notfound-404 mb-5">
-                        <h1>404</h1>
+                        <h1>403</h1>
                      </div>
-                     <h2>Oops! This Page Could Not Be Found</h2>
-                     <p>
-                        Sorry but the page you are looking for does not exist,
-                        have been removed. name changed or is temporarily
-                        unavailable
-                     </p>
+                     <h2>Oops! Access Forbidden</h2>
                      <BtnWithSpinner to="/">Go To Homepage</BtnWithSpinner>
                   </div>
                </div>
@@ -57,4 +51,4 @@ const Page404 = () => {
    );
 };
 
-export default Page404;
+export default Error403;

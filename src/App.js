@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { UserContext } from "./context/UserContext";
 import { ToastProvider } from "react-toast-notifications";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -8,13 +7,21 @@ import Register from "./Pages/Register";
 import Properties from "./Pages/Properties";
 import PropertySingle from "./Pages/PropertySingle";
 import Transactions from "./Pages/Transactions";
-import TransactionSingle from "./Pages/TransactionSingle";
+import SingleTransaction from "./Pages/SingleTransaction";
 import ConfirmBooking from "./Pages/ConfirmBooking";
-// import AdminNavigation from "./components/AdminNavigation";
+import AdminNavigation from "./components/AdminNavigation";
 import Logout from "./Pages/Logout";
 import CreateProperty from "./Pages/PropertyControl";
-// import Footer from "./components/Footer";
+import Footer from "./components/Footer";
 import Page404 from "./Pages/Page404";
+import Error403 from "./Pages/Error403";
+import {
+   PrivateRoute,
+   AdminRoute,
+   LoggedUserRoute,
+   TransactionRoute,
+} from "./PrivateRoute";
+import { AppProvider, AppContext } from "./context/AppProvider";
 
 function App() {
    const [user, setUser] = useState({
@@ -26,16 +33,8 @@ function App() {
       isAdmin: false,
    });
 
-   // booking: {
-   //    property: "",
-   //    startDate: "",
-   //    endDate: "",
-   // },
-   // let userBooking = localStorage["booking"];
-
-   useEffect(() => {
-      let userCredentials = localStorage["userToken"];
-
+   let userCredentials = localStorage["userToken"];
+   useMemo(() => {
       if (userCredentials) {
          fetch("https://thehomesphereapi.herokuapp.com/profile", {
             headers: {
@@ -58,72 +57,63 @@ function App() {
                }
             });
       }
-   }, []);
-
-   // const typography = new Typography({
-   //    headerFontFamily: [
-   //       "Avenir Next",
-   //       "Helvetica Neue",
-   //       "Segoe UI",
-   //       "Helvetica",
-   //       "Arial",
-   //       "sans-serif",
-   //    ],
-   //    bodyFontFamily: ["Georgia", "serif"],
-   // See below for the full list of options.
-   // });
-
-   // Or insert styles directly into the <head> (works well for client-only
-   // JS web apps.
-   // typography.injectStyles();
+   }, [userCredentials]);
 
    return (
-      <Router>
-         <UserContext.Provider value={{ user, setUser }}>
-            <div className="App" id="root" style={{ background: "#fefefe" }}>
-               <AdminNavigation />
-               <Switch>
-                  <ToastProvider>
+      <AppContext.Provider value={[user, setUser]}>
+         <Router>
+            <div className="App" id="root" style={{ background: "#f0f1f1" }}>
+               <AdminNavigation user={user} />
+               <ToastProvider>
+                  <Switch>
                      <Route exact path="/" component={Home} />
                      <Route exact path="/login" component={Login} />
                      <Route exact path="/logout" component={Logout} />
                      <Route exact path="/register" component={Register} />
                      <Route exact path="/properties" component={Properties} />
 
-                     <Route
-                        exact
-                        path="/transactions"
-                        component={Transactions}
-                     />
                      {/* Admin Only Route */}
-                     <Route
-                        exact
-                        path="/property-control"
-                        component={CreateProperty}
-                     />
-                     <Route
-                        exact
-                        path="/confirm-booking"
-                        component={ConfirmBooking}
-                     />
-                     <Route
-                        exact
-                        path="/properties/:id"
-                        component={PropertySingle}
-                     />
-                     <Route
+
+                     <AdminRoute path="/property-control">
+                        <CreateProperty user={user} />
+                     </AdminRoute>
+
+                     <TransactionRoute path="/confirmbooking">
+                        {!user.isAdmin ? (
+                           <ConfirmBooking user={user} />
+                        ) : (
+                           <Error403 />
+                        )}
+                     </TransactionRoute>
+
+                     <TransactionRoute exact path="/transactions">
+                        <Transactions />
+                     </TransactionRoute>
+
+                     <PrivateRoute
                         exact
                         path="/transactions/:id"
-                        component={TransactionSingle}
+                        component={SingleTransaction}
+                        user={user}
                      />
+                     {/* <SingleTransaction user={user} />
+                     </Route> */}
+                     <Route exact path="/sample">
+                        <SingleTransaction user={user} />
+                     </Route>
 
-                     <Route path="*" component={Page404} />
-                  </ToastProvider>
-               </Switch>
+                     <Route exact path="/properties/:id">
+                        <PropertySingle user={user} />
+                     </Route>
+                     <Route path="/404" component={Page404} />
+                     <Route path="/403" component={Error403} />
+                     <Route path="" component={Page404} />
+                  </Switch>
+               </ToastProvider>
                <Footer />
             </div>
-         </UserContext.Provider>
-      </Router>
+         </Router>
+      </AppContext.Provider>
    );
 }
 

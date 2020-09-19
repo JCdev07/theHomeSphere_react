@@ -14,6 +14,7 @@ const FormInput = styled.input`
    outline: none;
    border: 1px solid #cfcfcf;
    display: flex;
+   margin: auto;
 
    &[placeholder] {
       font-size: 1.2em;

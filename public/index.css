@@ -1,3 +1,7 @@
+#root {
+   overflow-x: hidden;
+}
+
 .route-wrapper {
    position: relative;
 }
@@ -95,9 +99,13 @@ body {
    position: absolute;
    left: 50%;
    top: 50%;
+   height: 500px;
    -webkit-transform: translate(-50%, -50%);
    -ms-transform: translate(-50%, -50%);
    transform: translate(-50%, -50%);
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
 }
 
 .notfound {
@@ -120,7 +128,7 @@ body {
    font-weight: 900;
    margin: 0px;
    text-transform: uppercase;
-   background: url("../img/text.png");
+   background: url("./text.png");
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
    background-size: cover;
@@ -143,20 +151,8 @@ body {
 }
 
 .notfound a {
-   font-family: "Titillium Web", sans-serif;
-   display: inline-block;
-   text-transform: uppercase;
-   color: #fff;
-   text-decoration: none;
-   border: none;
-   background: #5c91fe;
-   padding: 10px 40px;
-   font-size: 14px;
-   font-weight: 700;
-   border-radius: 1px;
-   margin-top: 15px;
+   margin-top: 25px;
    -webkit-transition: 0.2s all;
-   transition: 0.2s all;
 }
 
 .notfound a:hover {

@@ -24,7 +24,12 @@ const BtnWithSpinner = styled.button`
    }
 `;
 
-const FormBtn = ({ isLoading, formValid, className }) => {
+const FormBtn = ({ isLoading, formValid, className, text }) => {
+   let defText = "Submit";
+   if (text) {
+      defText = text;
+   }
+
    return (
       <>
          <BtnWithSpinner
@@ -40,7 +45,7 @@ const FormBtn = ({ isLoading, formValid, className }) => {
                   aria-hidden="true"
                ></span>
             ) : (
-               "Submit"
+               defText
             )}
          </BtnWithSpinner>
       </>

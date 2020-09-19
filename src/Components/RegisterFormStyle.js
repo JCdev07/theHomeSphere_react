@@ -85,6 +85,8 @@ export const Wrapper = styled.div`
    align-items: center;
    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)),
       url("https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
+   background-size: cover;
+   background-position: center;
 `;
 
 export const FormWrapper = styled.div`

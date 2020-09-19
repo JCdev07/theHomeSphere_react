@@ -15,8 +15,7 @@ const Hero = ({ properties }) => {
                <small>The Home Sphere is</small>
                <h1>The Rental Hub For Houses</h1>
                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Esse, vel.
+                  <i>The Better Way to Rent Real Estate.</i>
                </p>
             </div>
             <div className="col-12 col-md-6 col-lg-9">

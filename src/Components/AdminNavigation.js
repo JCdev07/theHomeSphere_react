@@ -1,7 +1,73 @@
 import React, { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { AppContext } from "../context/AppProvider";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+
+const NavigationBar = styled.nav`
+   padding-left: 60px;
+   padding-right: 60px;
+
+   & #register {
+      cursor: pointer;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      transition: all 0.3s ease;
+      border-radius: 120px;
+      overflow: hidden;
+      border: 1px solid #d8d8d8;
+      background-color: rgb(51, 0, 102, 1);
+      padding-left: 30px;
+      padding-right: 30px;
+      color: #fff;
+      font-weight: 600;
+
+      &:hover {
+         background-color: #fff;
+         color: black;
+         border: 1px solid 1px solid rgb(51, 0, 102, 1);
+      }
+
+      &::before {
+         content: "";
+         height: 100%;
+         width: 100%;
+         z-index: 1000;
+         display: block;
+         background-color: blue;
+         top: 0;
+         left: 0;
+         position: absolute;
+         background-color: rgb(51, 0, 102, 0.4);
+         transition: all 0.3s ease;
+      }
+
+      &:hover::before {
+         background-color: rgb(51, 0, 102, 0.35);
+         border: 1px solid 1px solid rgb(51, 0, 102, 1);
+      }
+   }
+
+   & #logger {
+      cursor: pointer;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      transition: all 0.3s ease;
+      border-radius: 120px;
+      overflow: hidden;
+      padding-left: 30px;
+      padding-right: 30px;
+      color: #1f2533;
+      font-weight: 600;
+      border: 1px solid transparent;
+
+      &:hover {
+         color: rgb(51, 0, 102, 1);
+         border: 1px solid rgb(51, 0, 102, 1);
+      }
+   }
+`;
 
 const Logo = styled.p`
    font-size: 1.5rem;
@@ -22,12 +88,12 @@ const Logo = styled.p`
    }
 `;
 
-const UserNavigation = () => {
-   const { user } = useContext(UserContext);
-   console.log(user);
+const UserNavigation = ({ user }) => {
+   console.log(user, user.isAuth, user.isAdmin);
+
    return (
       <>
-         <nav className="navbar navbar-expand-lg navbar-light bg-light">
+         <NavigationBar className="navbar navbar-expand-lg navbar-light bg-light">
             <NavLink className="navbar-brand" to="/">
                <Logo>HomeSphere</Logo>
             </NavLink>
@@ -53,7 +119,8 @@ const UserNavigation = () => {
                         Home
                      </NavLink>
                   </li>
-                  {user.isAdmin ? (
+
+                  {user.isAdmin && user.isAuth ? (
                      <>
                         <li className="nav-item">
                            <NavLink
@@ -73,8 +140,21 @@ const UserNavigation = () => {
                               Transactions Control
                            </NavLink>
                         </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/properties"
+                           >
+                              All Property
+                           </NavLink>
+                        </li>
                      </>
                   ) : (
+                     ""
+                  )}
+
+                  {user.isAuth && !user.isAdmin ? (
                      <>
                         <li className="nav-item">
                            <NavLink
@@ -89,37 +169,95 @@ const UserNavigation = () => {
                            <NavLink
                               activeClassName="active"
                               className="nav-link"
+                              to="/confirmbooking"
+                           >
+                              Booking
+                           </NavLink>
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
                               to="/transactions"
                            >
                               Transactions
                            </NavLink>
                         </li>
                      </>
+                  ) : (
+                     ""
+                  )}
+
+                  {!user.isAuth ? (
+                     <>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/properties"
+                           >
+                              All Property
+                           </NavLink>
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link"
+                              to="/confirmbooking"
+                           >
+                              Booking
+                           </NavLink>
+                        </li>
+                     </>
+                  ) : (
+                     ""
                   )}
                </ul>
-               <ul className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                     {user.isAuth ? (
-                        <NavLink
-                           activeClassName="active"
-                           className="nav-link"
-                           to="/logout"
-                        >
-                           Logout
-                        </NavLink>
-                     ) : (
-                        <NavLink
-                           activeClassName="active"
-                           className="nav-link"
-                           to="/login"
-                        >
-                           Login
-                        </NavLink>
-                     )}
-                  </li>
+
+               <ul className="navbar-nav ml-auto d-flex align-items-center">
+                  {!user.isAuth ? (
+                     <>
+                        <li className="nav-item mr-2">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link logger"
+                              id="logger"
+                              to="/login"
+                           >
+                              Login
+                           </NavLink>
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link logger"
+                              id="register"
+                              to="/register"
+                           >
+                              Register
+                           </NavLink>
+                        </li>
+                     </>
+                  ) : (
+                     <>
+                        <li className="nav-item mr-3">
+                           Welcome! {user.firstname}
+                        </li>
+                        <li className="nav-item">
+                           <NavLink
+                              activeClassName="active"
+                              className="nav-link logger"
+                              id="logger"
+                              to="/logout"
+                           >
+                              Logout
+                           </NavLink>
+                        </li>
+                     </>
+                  )}
                </ul>
             </div>
-         </nav>
+         </NavigationBar>
       </>
    );
 };

@@ -23,7 +23,7 @@ const FormWrapper = styled.form`
    }
 
    & button.chooseFileButton {
-      background: #519e8a;
+      background: #330066;
       color: #fff;
       border: 2px solid #fff;
       width: 50%;
@@ -36,21 +36,37 @@ const FormWrapper = styled.form`
       transition: all 0.3s ease;
 
       &:hover {
-         color: #519e8a;
+         color: #330066;
          background-color: #fff;
-         border: 2px solid #519e8a;
+         border: 2px solid #330066;
       }
    }
-   & button:hover {
-      color: #519e8a;
-      background-color: #fff;
-      border: 2px solid #519e8a;
-   }
+   & button {
+      background-color: #330066;
+      color: #fff;
+      border: 2px solid #fff;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 1em;
+      padding: 8px 0px;
+      font-size: 1em;
+      font-weight: lighter;
+      letter-spacing: 1px;
+      margin-bottom: 0.25em;
+      transition: all 0.3s ease;
+      border-radius: 120px;
 
-   & button[disabled] {
-      border: 1px solid #8ebaaf;
-      background-color: #8ebaaf;
-      color: #666666;
+      &:hover {
+         color: #330066;
+         background-color: #fff;
+         border: 2px solid #330066;
+      }
+
+      &:disabled,
+      &[disabled] {
+         border: 1px solid #7851a9;
+         background-color: #7851a9;
+      }
    }
 `;
 
@@ -266,7 +282,7 @@ function PropertyModal({ categories }) {
                   handleChange={handleChange}
                />
 
-               <div className="input-group w-50 mx-auto">
+               <div className="input-group w-50 mx-auto mt-4">
                   <div className="input-group-prepend">
                      <label className="input-group-text" htmlFor="Category">
                         Category
@@ -347,7 +363,9 @@ function PropertyModal({ categories }) {
                   formError={errMsg.landArea}
                />
 
-               <FormBtn formValid={formValid} isLoading={isLoading} />
+               <div className="col-12 w-50 mx-auto">
+                  <FormBtn formValid={formValid} isLoading={isLoading} />
+               </div>
             </FormWrapper>
          </Modal>
       </>

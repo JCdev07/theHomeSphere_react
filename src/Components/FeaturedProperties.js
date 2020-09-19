@@ -85,6 +85,44 @@ function FeaturedProperties({ properties }) {
    //    return <Redirect to={`/properties/${isClicked.property._id}`} />;
    // }
 
+   const images = [
+      {
+         id: 0,
+         image:
+            "https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+         id: 1,
+         image:
+            "https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      },
+      {
+         id: 2,
+         image:
+            "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+         id: 3,
+         image:
+            "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+         id: 4,
+         image:
+            "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+         id: 5,
+         image:
+            "https://images.pexels.com/photos/259593/pexels-photo-259593.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+      {
+         id: 6,
+         image:
+            "https://images.pexels.com/photos/2476632/pexels-photo-2476632.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      },
+   ];
+
    const FeaturedList = properties.slice(0, 7).map((property) => {
       if (
          properties[4]._id === property._id ||

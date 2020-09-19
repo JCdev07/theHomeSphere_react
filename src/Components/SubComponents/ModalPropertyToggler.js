@@ -9,7 +9,7 @@ const ModalToggle = styled.div`
    margin: 10px;
    padding: 10px;
    cursor: pointer;
-   color: lightsteelblue;
+   color: #330066;
    border-radius: 7px;
    box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.1);
    width: 100%;
@@ -22,7 +22,6 @@ const ModalToggle = styled.div`
 `;
 
 const ModalToggler = ({ openModal, property }) => {
-   console.log(property);
    return (
       <>
          <div className="col-6">

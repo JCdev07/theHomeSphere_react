@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import ModalPropertyToggler from "./SubComponents/ModalPropertyToggler";
 import LinkToSingleProp from "./SubComponents/LinkToSingleProp";
@@ -8,7 +8,7 @@ import FormBtn from "./SubComponents/FormBtn";
 import InputGroup from "./SubComponents/InputGroup";
 import ImageUploader from "react-images-upload";
 import { useToasts } from "react-toast-notifications";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import DeleteButton from "./SubComponents/DeleteButton";
 
@@ -25,6 +25,11 @@ const customStyles = {
    },
 };
 
+const ImgForm = styled.img`
+   height: 300px;
+   border-radius: 8px;
+`;
+
 const FormWrapper = styled.form`
    text-align: center;
    margin-top: 2rem;
@@ -32,6 +37,7 @@ const FormWrapper = styled.form`
    button {
       width: 50%;
       border-radius: 120px;
+      margin: auto;
    }
 
    /* & img {
@@ -44,7 +50,7 @@ const FormWrapper = styled.form`
    }
 
    & button.chooseFileButton {
-      background: #519e8a;
+      background: #330066;
       color: #fff;
       border: 2px solid #fff;
       width: 50%;
@@ -57,24 +63,39 @@ const FormWrapper = styled.form`
       transition: all 0.3s ease;
 
       &:hover {
-         color: #519e8a;
+         color: #330066;
          background-color: #fff;
-         border: 2px solid #519e8a;
+         border: 2px solid #330066;
       }
    }
-   & button:hover {
-      color: #519e8a;
-      background-color: #fff;
-      border: 2px solid #519e8a;
-   }
+   & button {
+      background-color: #330066;
+      color: #fff;
+      border: 2px solid #fff;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 1em;
+      padding: 8px 0px;
+      font-size: 1em;
+      font-weight: lighter;
+      letter-spacing: 1px;
+      margin-bottom: 0.25em;
+      transition: all 0.3s ease;
+      border-radius: 120px;
 
-   & button[disabled] {
-      border: 1px solid #8ebaaf;
-      background-color: #8ebaaf;
-      color: #666666;
+      &:hover {
+         color: #330066;
+         background-color: #fff;
+         border: 2px solid #330066;
+      }
+
+      &:disabled,
+      &[disabled] {
+         border: 1px solid #7851a9;
+         background-color: #7851a9;
+      }
    }
 `;
-
 const PropertyAdminCard = ({ property, categories }) => {
    const [propertyStatus, setPropertyStatus] = useState({
       name: property.name,
@@ -137,8 +158,6 @@ const PropertyAdminCard = ({ property, categories }) => {
          ...propertyStatus,
          coverImage: image[0],
       });
-
-      console.log(image);
    };
 
    const onDropImages = (imagesArr) => {
@@ -172,11 +191,9 @@ const PropertyAdminCard = ({ property, categories }) => {
          }
       )
          .then((res) => {
-            console.log(res);
             return res.json();
          })
          .then((data) => {
-            console.log(data);
             setDeletePropRedirect(true);
          });
    };
@@ -214,7 +231,6 @@ const PropertyAdminCard = ({ property, categories }) => {
          )
             .then((response) => {
                if (response.status === 200) {
-                  console.log(response);
                   addToast("Successfully Created a Property", {
                      appearance: "success",
                      autoDismiss: true,
@@ -233,7 +249,6 @@ const PropertyAdminCard = ({ property, categories }) => {
                return response.json();
             })
             .then((data) => {
-               console.log(data);
                if (data.request === "success") {
                   setIsLoading(false);
                   setIsRedirect(true);
@@ -255,7 +270,7 @@ const PropertyAdminCard = ({ property, categories }) => {
    }
 
    if (deletePropRedirect) {
-      return <Redirect to={`/create-property`} />;
+      return <Redirect to={`/property-control`} />;
    }
 
    return (
@@ -267,15 +282,17 @@ const PropertyAdminCard = ({ property, categories }) => {
             style={customStyles}
             contentLabel="Example Modal"
          >
-            <img
-               src={`https://thehomesphereapi.herokuapp.com/${property.coverImage}`}
-               alt=""
-            />
             <div className="d-flex justify-content-between align-items-center">
                <CloseButton onClick={closeModal} />
                <EditButton handleClick={handleEditBtn} />
                <DeleteButton handleClick={handleDeleteBtn} />
                <LinkToSingleProp link={`/properties/${property._id}`} />
+            </div>
+            <div className="col-12 mx-auto text-center">
+               <ImgForm
+                  src={`https://thehomesphereapi.herokuapp.com/${property.coverImage}`}
+                  alt=""
+               />
             </div>
             <FormWrapper onSubmit={handleSubmit}>
                <InputGroup
@@ -305,7 +322,7 @@ const PropertyAdminCard = ({ property, categories }) => {
                   formDisabled={formDisabled}
                /> */}
 
-               <div className="input-group w-50 mx-auto">
+               <div className="input-group w-50 mx-auto mt-4">
                   <div className="input-group-prepend">
                      <label className="input-group-text" htmlFor="Category">
                         Category
@@ -389,7 +406,9 @@ const PropertyAdminCard = ({ property, categories }) => {
                   formDisabled={formDisabled}
                />
 
-               <FormBtn formValid={formValid} isLoading={isLoading} />
+               <div className="col-12 mx-auto w-50">
+                  <FormBtn formValid={formValid} isLoading={isLoading} />
+               </div>
             </FormWrapper>
          </Modal>
       </>

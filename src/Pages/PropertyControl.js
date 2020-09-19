@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../context/UserContext";
 import PropertyAddModal from "../components/PropertyAddModal";
 import PropertyAdminCard from "../components/PropertyAdminCard";
 import HeadingH2 from "../components/SubComponents/HeadingH2";
 import cogoToast from "cogo-toast";
+import styled from "styled-components";
+import { AppContext } from "../context/AppProvider";
 import { Redirect } from "react-router-dom";
 
-const CreateProperty = () => {
-   const { user } = useContext(UserContext);
-
+const PropertiesControlCont = styled.div`
+   min-height: 70vh;
+`;
+const CreateProperty = ({ user }) => {
+   // const [user] = useContext(AppContext);
    const [properties, setProperties] = useState([]);
    const [categories, setCategories] = useState([]);
    const [isLoading, setIsLoading] = useState(false);
-
    useEffect(() => {
-      cogoToast.loading("Loading All Assets...", { hideAfter: 5 });
+      cogoToast.loading("Loading All Assets...", { hideAfter: 3 });
       if (!categories.length) {
          fetch("https://thehomesphereapi.herokuapp.com/categories")
             .then((response) => {
@@ -30,28 +32,28 @@ const CreateProperty = () => {
       }
    }, []);
 
+   console.log(user);
    useEffect(() => {
       setIsLoading(true);
+      if (setIsLoading) {
+         cogoToast.loading("Loading All Properties...").then(() => {
+            cogoToast.success("All Property Successfully Loaded");
+         });
+      }
 
       fetch("https://thehomesphereapi.herokuapp.com/properties")
          .then((response) => {
             return response.json();
          })
          .then((data) => {
-            cogoToast.success("All Property Successfully Loaded", {
-               position: "top-right",
-            });
             setProperties(data.properties);
+            setIsLoading(false);
          });
 
       return function cleanup() {
          setProperties([]);
       };
    }, []);
-
-   if (!user.isAdmin) {
-      return <Redirect to="/404" />;
-   }
 
    const propertyAdminCards = properties.map((property) => {
       return (
@@ -65,7 +67,7 @@ const CreateProperty = () => {
 
    return (
       <>
-         <div className="container">
+         <PropertiesControlCont className="container">
             <div className="row mt-3">
                <div className="col-12 mx-auto">
                   <HeadingH2 text="Property Control" />
@@ -79,7 +81,7 @@ const CreateProperty = () => {
             <div className="row" id="properties-container">
                {propertyAdminCards}
             </div>
-         </div>
+         </PropertiesControlCont>
       </>
    );
 };

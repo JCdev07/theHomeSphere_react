@@ -7,7 +7,7 @@ const Make3dSpace = styled.div`
    position: relative;
    perspective: 800px;
    width: 340px;
-   height: 300px;
+   height: 315px;
    transform-style: preserve-3d;
    transition: transform 5s;
    position: relative;
@@ -35,6 +35,15 @@ const ProductCard = styled.div`
 
    overflow: hidden;
 
+   & #product-front {
+      height: 100%;
+
+      & img {
+         height: 80%;
+         width: auto;
+      }
+   }
+
    &.animate {
       top: 15px;
       left: 5px;
@@ -47,7 +56,7 @@ const ProductCard = styled.div`
       transition: 100ms ease-out;
 
       & .stats-container {
-         top: 145px;
+         top: 90px;
          -webkit-transition: all 200ms ease-out;
          -moz-transition: all 200ms ease-out;
          -o-transition: all 200ms ease-out;
@@ -67,7 +76,7 @@ const ProductCard = styled.div`
          width: 152px;
          font-size: 15px;
          margin-left: -75px;
-         top: 60px;
+         top: 25px;
          -webkit-transition: all 200ms ease-out;
          -moz-transition: all 200ms ease-out;
          -o-transition: all 200ms ease-out;
@@ -81,7 +90,7 @@ const ProductCard = styled.div`
       top: 190px;
       left: 0;
       width: 100%;
-      height: 165px;
+      height: 225px;
       padding: 17px 20px 20px;
       -webkit-transition: all 200ms ease-out;
       -moz-transition: all 200ms ease-out;

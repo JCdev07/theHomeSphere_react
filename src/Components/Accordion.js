@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import TimeAgo from "timeago-react"; //
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
    AccordionItem,
    AccordionItemHeading,
@@ -10,7 +10,7 @@ import {
 import styled from "styled-components";
 import "react-accessible-accordion/dist/fancy-example.css";
 import FormBtn from "../components/SubComponents/FormBtn";
-import { UserContext } from "../context/UserContext";
+import { AppContext } from "../context/AppProvider";
 
 const StyledLink = styled(Link)`
    &:link,
@@ -50,58 +50,28 @@ const SubmitBtn = styled(FormBtn)`
 `;
 
 export default function AccordionCont({ transaction }) {
-   const { user } = useContext(UserContext);
+   const [user, setUser] = useContext(AppContext);
 
-   const [isPaid, setIsPaid] = useState({ isPaid: null });
-   const [status, setStatus] = useState({ status: "" });
+   // const [transIspaid, setTransIspaid] = useState("");
 
-   // useEffect(() => {
-   //    setTransactionForm({
+   // const [transStatus, setTransStatus] = useState("")
 
-   //    });
-   //    return () => {
-   //       setTransactionForm({});
-   //    };
-   // }, []);
+   const [transState, setTransState] = useState({ isPaid: transaction.isPaid });
 
    const [isRedirect, setisRedirect] = useState(false);
 
    const [isLoading, setIsLoading] = useState(false);
 
-   const handleChange = (e) => {
-      if (e.target.name === "isPaid") {
-         setIsPaid({ isPaid: e.target.value }, console.log(isPaid, status));
-      }
-      if (e.target.name === "status") {
-         setStatus({ status: e.target.value }, console.log(isPaid, status));
-      }
-      console.log(isPaid, status);
-   };
-
-   const defineTransStatus = (transStatus) => {
-      if (transStatus === "Pending") {
-         return "Pending";
-      }
-      if (transStatus === "Confirmed") {
-         return "Confirmed";
-      }
-      if (transStatus === "Rejected") {
-         return "Rejected";
-      }
-   };
-
    const handleSubmit = (e) => {
       e.preventDefault();
+      console.log(transState);
       setIsLoading(true);
-
-      let qry = { isPaid: isPaid, status: status };
-      console.log(JSON.stringify(qry));
 
       fetch(
          `https://thehomesphereapi.herokuapp.com/transactions/${transaction._id}`,
          {
             method: "put",
-            body: JSON.stringify(qry),
+            body: JSON.stringify({ isPaid: true }),
             headers: {
                "Content-type": "application/json",
                Authorization: `Bearer ${localStorage["userToken"]}`,
@@ -109,8 +79,8 @@ export default function AccordionCont({ transaction }) {
          }
       )
          .then((response) => {
-            console.log(response);
             return response.json();
+            console.log(response);
          })
          .then((data) => {
             console.log(data);
@@ -119,9 +89,9 @@ export default function AccordionCont({ transaction }) {
          });
    };
 
-   // if (isRedirect) {
-   //    return <Redirect to={`/transactions/${transaction._id}`} />;
-   // }
+   if (isRedirect) {
+      return <Redirect to={`/transactions/${transaction._id}`} />;
+   }
 
    return (
       <AccordionItem className="mb-2">
@@ -141,50 +111,14 @@ export default function AccordionCont({ transaction }) {
             <StyledLink to={`/transactions/${transaction._id}`}>
                View More Details
             </StyledLink>
-            {user.isAdmin ? (
+            {user.isAdmin && !transaction.isPaid ? (
                <form onSubmit={handleSubmit} className="m-0">
                   <div className="input-group m-0 p-0 mt-2 col-6">
-                     <div className="input-group-prepend">
-                        <label
-                           className="input-group-text"
-                           htmlFor="inputGroupSelect01"
-                        >
-                           Payment Status
-                        </label>
-                     </div>
-                     <select
-                        className="custom-select"
-                        id="status"
-                        defaultValue={transaction.isPaid ? true : false}
-                        onChange={(e) => setIsPaid(e.target.value)}
-                        name="isPaid"
-                     >
-                        <option value={true}>Paid</option>
-                        <option value={false}>Unpaid</option>
-                     </select>
-                  </div>
-
-                  <div className="input-group m-0 p-0 mt-2 col-6">
-                     <div className="input-group-prepend">
-                        <label
-                           className="input-group-text"
-                           htmlFor="inputGroupSelect02"
-                        >
-                           Status
-                        </label>
-                     </div>
-                     <select
-                        className="custom-select"
-                        id="status"
-                        defaultValue={defineTransStatus(transaction.status)}
-                        onChange={handleChange}
-                        name="status"
-                     >
-                        <option value="Rejected">Rejected</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Confirmed">Confirmed</option>
-                     </select>
-                     <SubmitBtn formValid={true} isLoading={isLoading} />
+                     <SubmitBtn
+                        formValid={true}
+                        isLoading={isLoading}
+                        text="Mark as Paid"
+                     />
                   </div>
                </form>
             ) : (

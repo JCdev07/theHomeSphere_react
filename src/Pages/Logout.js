@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import { UserContext } from "../context/UserContext";
+import { AppContext } from "../context/AppProvider";
+import cogoToast from "cogo-toast";
 
 const Logout = () => {
-   const { setUser } = useContext(UserContext);
+   const [user, setUser] = useContext(AppContext);
 
    const { addToast } = useToasts();
 
@@ -21,12 +22,7 @@ const Logout = () => {
          isAdmin: false,
       });
       setisRedirect(true);
-      addToast("Logged Out successfully", {
-         appearance: "info",
-         autoDismiss: true,
-         autoDismissTimeout: 7000,
-         placement: "top-center",
-      });
+      cogoToast.info("Logged out Successfully.");
    }, []);
 
    if (isRedirect) {

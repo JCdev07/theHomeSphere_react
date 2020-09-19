@@ -19,6 +19,22 @@ const Card = styled.div`
       border-radius: 0;
    }
 
+   &::before {
+      content: "";
+      height: 100%;
+      width: 100%;
+      z-index: 1000;
+      display: block;
+      background-color: blue;
+      position: absolute;
+      background-color: rgb(51, 0, 102, 0.1);
+      transition: all 0.3s ease;
+   }
+
+   &:hover::before {
+      background-color: rgb(51, 0, 102, 0.35);
+   }
+
    &:hover {
       box-shadow: 2px 0.6rem 0.4rem rgba(0, 0, 0, 0.2);
       transform: translateY(-1px);
@@ -44,6 +60,7 @@ const CardBody = styled.div`
    background-color: #fff;
    width: 100%;
    transition: all 0.3s ease;
+   z-index: 2000;
 
    &::before {
       content: "";
@@ -85,13 +102,15 @@ const PropertyCard = ({ property }) => {
       >
          <Card className="card">
             <img
-               src={`https://thehomesphereapi.herokuapp.com/${property.coverImage}`}
+               src={
+                  "https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+               }
                className="card-img-top img-fluid"
                alt="..."
             />
             <CardBody className="card-body p-2">
-               <h5 className="card-title m-0">__Card title__</h5>
-               <small className="m-0">__Card title__</small>
+               <h5 className="card-title m-0">{property.name}</h5>
+               <small className="m-0">{property.address}</small>
             </CardBody>
          </Card>
       </FeaturedContainer>

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
 
 const DeleteBtn = styled.button`
    font-size: 1rem;
